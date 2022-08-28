@@ -27,10 +27,27 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import Main from './src/screens/Main';
 
+import {useEffect, useState} from 'react';
+import * as Font from 'expo-font';
+import {Text, View, StyleSheet} from 'react-native';
+
 const Stack = createStackNavigator();
 
 const App: React.FunctionComponent = () => {
-  return (
+  const [fontLoad, setFontLoad] = useState(false);
+
+  // font 불러오기
+  useEffect(() => {
+    const Load = async () => {
+      await Font.loadAsync({
+        fonttest: require('./src/assets/fonts/NEXONLv1GothicBold.ttf'),
+      });
+      setFontLoad(true);
+    };
+    Load();
+  }, []);
+
+  return fontLoad ? (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
@@ -42,7 +59,20 @@ const App: React.FunctionComponent = () => {
         />
       </Stack.Navigator>
     </NavigationContainer>
+  ) : (
+    <View style={styles.appLoading}>
+      <Text>Loading...</Text>
+    </View>
   );
 };
+
+// ' Loading...' 중앙 정렬
+const styles = StyleSheet.create({
+  appLoading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default App;

@@ -4,6 +4,7 @@ const CARMINE_PINK = '#eb4d4b';
 const LIGHT_BLUE = '#74b9ff';
 const DRACULA_ORCHID = '#2d3436';
 const AMERICAN_RIVER = '';
+const BLACK = '#000000';
 
 const Colors = {
   normalBlueBackground: NORMAL_BLUE_BACKGROUND,
@@ -12,6 +13,7 @@ const Colors = {
   lightBlue: LIGHT_BLUE,
   draculaOrchid: DRACULA_ORCHID,
   americanRiver: AMERICAN_RIVER,
+  black: BLACK,
 };
 
 export default Colors;
