@@ -26,6 +26,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import Main from './src/screens/Main';
+import CateList from './src/screens/CateList';
 
 import {useEffect, useState} from 'react';
 import * as Font from 'expo-font';
@@ -53,6 +54,13 @@ const App: React.FunctionComponent = () => {
         <Stack.Screen
           name="Main"
           component={Main}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="CateList"
+          component={CateList}
           options={{
             headerShown: false,
           }}

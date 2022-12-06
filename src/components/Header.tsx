@@ -1,55 +1,110 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import styled from 'styled-components/native';
 import Colors from '../constants/Colors';
 // import Sizes from '../constants/Sizes';
 // import {Image} from 'react-native';
 
+/* 스타일 컴포넌트 */
+//전체 할당 뷰
 const Container = styled.View`
-  flex: 0.1;
-  width: 100%;
-  height: 7%;
+  flex: 0.08;
   background-color: ${Colors.white};
-  padding-top: 10px;
-  padding-left: 10px;
   flex-direction: row;
-  justify-content: space-between;
   border-bottom-width: 1;
   border-bottom-color: ${Colors.black};
 `;
-
-const Img = styled.Image``;
-
+//메인 로고 뷰
+const TitleView = styled.View`
+  flex: 1;
+  align-self: center;
+`;
+//검색, 메뉴바 서브 뷰
+const SubView = styled.View`
+  flex-direction: row;
+  flex: 1;
+`;
+//검색 이미지 뷰
+const SerchView = styled.View`
+  flex: 1;
+  /* border-color: ${Colors.black};
+  border-width: 1; */
+  align-items: flex-end;
+  align-self: center;
+`;
+//메뉴바 이미지 뷰
+const MenuView = styled.View`
+  flex: 0.4;
+  /* border-color: black;
+  border-width: 1; */
+  align-items: flex-end;
+  padding-right: 10;
+  align-self: center;
+`;
+//메인 로고 이미지
+const TitleImg = styled.Image`
+  flex: 0.65;
+`;
+//검색 이미지
+const SerchImg = styled.Image`
+  width: 30px;
+  height: 30px;
+`;
+//메뉴 선택 이미지
+const MenuImg = styled.Image`
+  width: 30px;
+  height: 30px;
+`;
 const Header = () => (
   <Container>
-    <View style={styles.titleView}>
-      <Img
+    <TitleView>
+      <TitleImg
         style={styles.ImgResizeMode}
         source={require('../assets/images/main/logo.png')}
       />
-    </View>
-    <Img
-      style={styles.ImgResizeMode}
-      source={require('../assets/images/main/Object-tilte001.png')}
-    />
-    <Img
-      style={styles.ImgResizeMode}
-      source={require('../assets/images/main/Object-tilte002.png')}
-    />
+    </TitleView>
+    <SubView>
+      <SerchView>
+        <SerchImg
+          style={styles.ImgResizeMode}
+          source={require('../assets/images/main/Object-tilte001.png')}
+        />
+      </SerchView>
+      <MenuView>
+        <MenuImg
+          style={styles.ImgResizeMode}
+          source={require('../assets/images/main/Object-tilte002.png')}
+        />
+      </MenuView>
+    </SubView>
   </Container>
 );
 
+/* 정적 스타일 */
 const styles = StyleSheet.create({
-  titleView: {
-    flex: 1,
-    borderColor: Colors.black,
-    borderWidth: 1,
-    alignItems: 'flex-start',
-    marginBottom: 10,
-  },
+  //동적 이미지 설정
   ImgResizeMode: {
     resizeMode: 'contain',
   },
+  //검색 이미지 할당 뷰
+  // serchView: {
+  //   flex: 1,
+  //   // borderColor: Colors.black,
+  //   // borderWidth: 1,
+  //   alignItems: 'flex-end',
+  //   marginBottom: 10,
+  //   paddingTop: 10,
+  // },
+  // //메뉴바 이미지 할당 뷰
+  // menuView: {
+  //   flex: 0.7,
+  //   // borderColor: Colors.black,
+  //   // borderWidth: 1,
+  //   alignItems: 'flex-end',
+  //   paddingRight: 10,
+  //   marginBottom: 10,
+  //   paddingTop: 10,
+  // },
 });
 
 export default Header;
