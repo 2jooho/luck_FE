@@ -25,14 +25,12 @@
 //   }
 // }
 
-import React, {useState} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import styled from 'styled-components/native';
-import {StatusBar, StyleSheet, TouchableOpacity} from 'react-native';
+import {StatusBar, StyleSheet, TouchableOpacity, SafeAreaView, Text, View, Image, ScrollView, RefreshControl} from 'react-native';
 import Header from '../components/Header';
-import {Image, View} from 'react-native';
 import Colors from '../constants/Colors';
-import {useEffect} from 'react';
-import {ScrollView} from 'react-native-gesture-handler';
+import MainCateTitle from '../components/MainCateTitle';
 // import apiClient from '../../app/apis/service/client';
 
 /* 스타일 컴포넌트 설정 */
@@ -46,7 +44,7 @@ const MainView = styled.View`
 //대표 이미지 및 텍스트 전체 뷰
 const LuckImgAndTextView = styled.View`
   position: relative;
-  flex: 0.4;
+  flex: 1;
   width: 100%;
   height: 100%;
   background-color: white;
@@ -106,6 +104,15 @@ const LuckMainImg = styled.Image`
   width: 100%;
   height: 100%;
 `;
+
+//timeout의 시간만큼 함수를 지연하고 처리하는 함수 생성
+const wait = (timeout) => {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+}
+
+
 //카테고리 텍스트 뷰
 //함수 진행 로직
 const Main = ({navigation}) => {
@@ -119,9 +126,27 @@ const Main = ({navigation}) => {
     }
   }, [luckScore]);
 
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  //refreshcontrol을 호출할 때 실행되는 callback함수
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(1000).then(() => setRefreshing(false));
+  }, [])
+
+
+
   //메인 로직 진행
   return (
-    <MainView>
+    // <SafeAreaView style={styles.container}>
+    // <ScrollView
+    //     contentContainerStyle={styles.scrollView}
+    //     refreshControl = {
+    //       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    //     }
+    //   >
+      <MainView>
       {/* 상단 메뉴바 */}
       <StatusBar barStyle="light-content" />
       {/* <Header today={'Monday'} month={'October'} todayNum={'3'} /> */}
@@ -159,11 +184,18 @@ const Main = ({navigation}) => {
       </LuckImgAndTextView>
 
       {/* 추천 카테고리 */}
-
+      <MainCateTitle title="추천"></MainCateTitle>
       {/* 질문 카테고리 */}
 
       {/* 캘린더 이미지 */}
-    </MainView>
+      </MainView>
+     
+    
+    // {/* </ScrollView>
+    // </SafeAreaView> */}
+
+
+
   );
 };
 // function Main() {
@@ -202,6 +234,17 @@ const styles = StyleSheet.create({
     width: '90%',
     height: '30%',
   },
+  container: {
+    flex: 1,
+  },
+  scrollView: {
+    backgroundColor: 'orange',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
+    fontSize: 42
+  }
 });
 
 export default Main;

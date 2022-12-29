@@ -26,11 +26,21 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import Main from './src/screens/Main';
+import MainPage from './src/screens/MainPage'
 import CateList from './src/screens/CateList';
-
+import CateList2 from './src/screens/CateList2'
 import {useEffect, useState} from 'react';
 import * as Font from 'expo-font';
 import {Text, View, StyleSheet} from 'react-native';
+
+//import 목록
+//npm install -save axios
+// npm i react-native-responsive-screen
+
+
+//실행
+// npm run start
+// react-native run-android
 
 const Stack = createStackNavigator();
 
@@ -52,8 +62,8 @@ const App: React.FunctionComponent = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Main"
-          component={Main}
+          name="MainPage"
+          component={MainPage}
           options={{
             headerShown: false,
           }}

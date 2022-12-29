@@ -8,7 +8,7 @@ import Colors from '../constants/Colors';
 /* 스타일 컴포넌트 */
 //전체 할당 뷰
 const Container = styled.View`
-  flex: 0.08;
+  /* flex: 0.08; */
   background-color: ${Colors.white};
   flex-direction: row;
   border-bottom-width: 1;
@@ -18,32 +18,37 @@ const Container = styled.View`
 const TitleView = styled.View`
   flex: 1;
   align-self: center;
+  /* border-color: ${Colors.black};
+  border-width: 1; */
 `;
 //검색, 메뉴바 서브 뷰
 const SubView = styled.View`
   flex-direction: row;
-  flex: 1;
+  border-color: ${Colors.black};
+  border-width: 1;
+  /* flex: 0.2; */
 `;
 //검색 이미지 뷰
 const SerchView = styled.View`
-  flex: 1;
+  /* flex: 1; */
   /* border-color: ${Colors.black};
   border-width: 1; */
   align-items: flex-end;
   align-self: center;
+  margin-right: 5%;
 `;
 //메뉴바 이미지 뷰
 const MenuView = styled.View`
-  flex: 0.4;
+  /* flex: 0.4; */
   /* border-color: black;
   border-width: 1; */
   align-items: flex-end;
-  padding-right: 10;
   align-self: center;
+  margin-right: 5%;
 `;
 //메인 로고 이미지
 const TitleImg = styled.Image`
-  flex: 0.65;
+  /* flex: 0.65; */
 `;
 //검색 이미지
 const SerchImg = styled.Image`
@@ -63,7 +68,7 @@ const Header = () => (
         source={require('../assets/images/main/logo.png')}
       />
     </TitleView>
-    <SubView>
+    {/* <SubView> */}
       <SerchView>
         <SerchImg
           style={styles.ImgResizeMode}
@@ -76,7 +81,7 @@ const Header = () => (
           source={require('../assets/images/main/Object-tilte002.png')}
         />
       </MenuView>
-    </SubView>
+    {/* </SubView> */}
   </Container>
 );
 
