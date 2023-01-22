@@ -7,6 +7,8 @@ import MainCateTitle from '../components/MainCateTitle';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import LuckTextComponent from '../components/LuckTextComponent'
 import LuckTextImgComponent from '../components/LuckTextImgComponent'
+import CateListComponent from '../components/CateListComponent';
+import { color } from 'react-native-reanimated';
 
 //import 목록
 // npm i react-native-responsive-screen
@@ -49,29 +51,31 @@ const MainPage = ({navigation}) => {
                 {/* 추천 */}
                 <View style={styles.categoryView}>
                     {/* <CateListComponent title="추천" props={recommendImgUrl} ></CateListComponent> */}
-                    <Text>추천</Text>
+                <Text>추천</Text>
                 </View>
-                <ScrollView horizontal={true}>
-                <View style={{width:'25%', height:'15%'}}>
+                <ScrollView horizontal={true} style={{backgroundColor:'#adcc25'}}>
+                {/* <View style={{width:'10%', height:'15%', borderColor: 'red', borderWidth: 1}}> */}
+                <View style={{marginLeft: 7}}></View>
                     <Image source={require('../assets/images/main/image-middle-001.jpg')} style={styles.ImgView}></Image>
-                </View>
-                <View style={{width:'25%', height:'20%'}}>
+                {/* </View> */}
+                {/* <View style={{width:'10%', height:'15%', borderColor: 'red', borderWidth: 1}}> */}
                     <Image source={require('../assets/images/main/image-middle-001.jpg')} style={styles.ImgView}></Image>
-                </View>
-                <View style={{width:'25%', height:'20%'}}>
+                {/* </View> */}
+                {/* <View style={{width:'10%', height:'15%', borderColor: 'red', borderWidth: 1}}> */}
                     <Image source={require('../assets/images/main/image-middle-001.jpg')} style={styles.ImgView}></Image>
-                </View>
+                {/* </View> */}
+                <View style={{marginLeft: 7}}></View>
                 </ScrollView>
+
                 <View style={styles.categoryView}>
-                    {/* <CateListComponent title="추천" props={recommendImgUrl} ></CateListComponent> */}
-                    <Text>카테고리</Text>
+
+                <Text>카테고리</Text>
                 </View>
-                {/* <View>
-                    <CateListComponent></CateListComponent>
-                </View> */}
-                <View style={styles.scheduleImgView}>
-                    <Image source={require('../assets/images/main/image-low-001.jpg')} style={styles.ImgView}></Image>
+                <View style={{width: '100%', height: 'auto',marginTop: 20, borderColor: 'black',borderWidth: 1}}>
+                    <CateListComponent ></CateListComponent>
                 </View>
+                {/* 캘린더 이미지 */}
+                <Image source={require('../assets/images/main/image-low-001.jpg')} style={styles.ScheduleImgView}></Image>
             </ScrollView>
         </SafeAreaView>
     )
@@ -80,6 +84,7 @@ const MainPage = ({navigation}) => {
 const styles = StyleSheet.create({
     safeView: {
         flex: 1,
+        bottom: 0
     },
     scrollview: {
         alignItems: 'center',
@@ -115,13 +120,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         fontSize: 30,
     },
-    scheduleImgView: {
-        width: wp('100%'),
-        height: hp('30%'),
-    },
     ImgView: {
+        // width: wp('100%'),
+        // height: hp('15%'),        
+        // resizeMode: 'contain',
+        borderColor: 'red', 
+        borderWidth: 1,
+        // overflow: 'hidden',
+        width: 150,
+        height: 150,
+        resizeMode: 'cover',
+        margin: 10,
+    },
+    ScheduleImgView: {
         width: wp('100%'),
+        height: hp('15%'),
         resizeMode: 'contain',
+        
     },
 
 })
