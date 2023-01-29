@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import styled from 'styled-components/native';
 import Colors from '../constants/Colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
@@ -10,7 +10,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 //전체 할당 뷰
 const Container = styled.View`
   /* flex: 0.08; */
-  background-color: ${Colors.white};
+  background-color: ${Colors.cateMainHeader};
   flex-direction: row;
   border-bottom-width: 1;
   border-bottom-color: 'rgba(158, 150, 150, .5)'
@@ -18,8 +18,7 @@ const Container = styled.View`
 //메인 로고 뷰
 const TitleView = styled.View`
   flex: 1;
-  align-self: center;
-  margin-left: 10;
+  align-items: center;
   /* border-color: ${Colors.black};
   border-width: 1; */
 `;
@@ -35,9 +34,7 @@ const SerchView = styled.View`
   /* flex: 1; */
   /* border-color: ${Colors.black};
   border-width: 1; */
-  align-items: flex-end;
   align-self: center;
-  margin-right: 5%;
 `;
 //메뉴바 이미지 뷰
 const MenuView = styled.View`
@@ -55,8 +52,8 @@ const TitleImg = styled.Image`
 `;
 //검색 이미지
 const SerchImg = styled.Image`
-  width: 25;
-  height: 25;
+  width: 20;
+  height: 20;
 `;
 //메뉴 선택 이미지
 const MenuImg = styled.Image`
@@ -64,28 +61,26 @@ const MenuImg = styled.Image`
   height: 20;
 `;
 
-const Header = () => (
+const CateListHeader = () => (
   <Container>
+    <SerchView>
+      <SerchImg
+        style={styles.ImgResizeMode}
+        source={require('../assets/images/category/top-001.png')}
+      />
+    </SerchView>
     <TitleView>
       <TitleImg
         style={styles.ImgResizeMode}
         source={require('../assets/images/main/logo.png')}
       />
     </TitleView>
-    {/* <SubView> */}
-      <SerchView>
-        <SerchImg
-          style={styles.ImgResizeMode}
-          source={require('../assets/images/main/Object-tilte001.png')}
-        />
-      </SerchView>
-      <MenuView>
-        <MenuImg
-          style={styles.ImgResizeMode}
-          source={require('../assets/images/main/Object-tilte002.png')}
-        />
-      </MenuView>
-    {/* </SubView> */}
+    <MenuView>
+      <MenuImg
+        style={styles.ImgResizeMode}
+        source={require('../assets/images/category/top-002.png')}
+      />
+    </MenuView>
   </Container>
 );
 
@@ -116,4 +111,4 @@ const styles = StyleSheet.create({
   // },
 });
 
-export default Header;
+export default CateListHeader;

@@ -85,7 +85,7 @@ const LuckTextImg = styled.Image`
 const LuckText = styled.Text`
   font-size: 22px;
   text-align: center;
-  font-family: fonttest;
+  font-family: NEXONLv1GothicBold;
   color: ${Colors.black};
   margin: 3%;
 `;

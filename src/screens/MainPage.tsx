@@ -19,13 +19,14 @@ const wait = (timeout) => {
     });
   }
 
-
 const MainPage = ({navigation}) => {
     const [recommendImgUrl, setRecommendImgUrl] = useState(null);
     const [luckScore] = useState(60);
-  
     const [refreshing, setRefreshing] = useState(false);
-  
+    const mainText = { title: ` 이봐, 너한테 날이 좋으면 뭐해?
+아무것도 안하고 있으면 말짱 꽝인데!` }
+
+
     //refreshcontrol을 호출할 때 실행되는 callback함수
     const onRefresh = useCallback(() => {
       setRefreshing(true);
@@ -38,9 +39,10 @@ const MainPage = ({navigation}) => {
                     <StatusBar barStyle="light-content" />
                     <Header />
             <ScrollView contentContainerStyle={styles.scrollview}>
+
                 {/* 대표 텍스트 */}
                  <View style={styles.luckText}>
-                    <LuckTextComponent></LuckTextComponent>
+                    <LuckTextComponent title={mainText.title}></LuckTextComponent>
                 </View>
 
                 {/* 대표 이미지 */}
@@ -49,29 +51,24 @@ const MainPage = ({navigation}) => {
                 </View>
             
                 {/* 추천 */}
-                <View style={styles.categoryView}>
+                <View style={styles.RecommandView}>
                     {/* <CateListComponent title="추천" props={recommendImgUrl} ></CateListComponent> */}
-                <Text>추천</Text>
+                    <Text style={styles.RecommandText}>추천</Text>
+                    <View style={styles.RecommandTextView}></View>
                 </View>
-                <ScrollView horizontal={true} style={{backgroundColor:'#adcc25'}}>
-                {/* <View style={{width:'10%', height:'15%', borderColor: 'red', borderWidth: 1}}> */}
+                <ScrollView horizontal={true}>
                 <View style={{marginLeft: 7}}></View>
                     <Image source={require('../assets/images/main/image-middle-001.jpg')} style={styles.ImgView}></Image>
-                {/* </View> */}
-                {/* <View style={{width:'10%', height:'15%', borderColor: 'red', borderWidth: 1}}> */}
-                    <Image source={require('../assets/images/main/image-middle-001.jpg')} style={styles.ImgView}></Image>
-                {/* </View> */}
-                {/* <View style={{width:'10%', height:'15%', borderColor: 'red', borderWidth: 1}}> */}
-                    <Image source={require('../assets/images/main/image-middle-001.jpg')} style={styles.ImgView}></Image>
-                {/* </View> */}
+                    <Image source={require('../assets/images/main/image-middle-002.jpg')} style={styles.ImgView}></Image>
+                    <Image source={require('../assets/images/main/image-middle-003.jpg')} style={styles.ImgView}></Image>
                 <View style={{marginLeft: 7}}></View>
                 </ScrollView>
 
-                <View style={styles.categoryView}>
-
-                <Text>카테고리</Text>
+                <View style={styles.CategoryView}>
+                    <Text style={styles.CategoryText}>질문 카테고리</Text>
+                    <View style={styles.CateTextView}></View>
                 </View>
-                <View style={{width: '100%', height: 'auto',marginTop: 20, borderColor: 'black',borderWidth: 1}}>
+                <View style={{width: '100%', height: 'auto'}}>
                     <CateListComponent ></CateListComponent>
                 </View>
                 {/* 캘린더 이미지 */}
@@ -97,35 +94,75 @@ const styles = StyleSheet.create({
     // },
     luckText: {
         width: wp('100%'),
-        height: hp('20%'),
-        alignItems: 'center',
-        borderColor: '#ff0000',
-        borderWidth: 1,
+        height: hp('12%'),
+        // borderColor: '#ff0000',
+        // borderWidth: 1,
     }
     ,
     luckTextImg: {
         // top: hp('1%'),
         width: wp('100%'),
-        height: hp('30%'),
+        height: hp('22%'),
         alignItems: 'center',
-        borderColor: '#000000',
-        borderWidth: 1,
     },
-    categoryView: {
+    RecommandView: {
         width: wp('100%'),
         height: hp('5%'),
-        borderColor: '#dd0',
-        borderWidth: 1,
         flexDirection:'row',
         alignItems: 'center',
         fontSize: 30,
+        marginBottom: 5,
+    },
+    RecommandText: {
+        fontSize: 20,
+        color: '#000000',
+        fontFamily: 'NEXONLv1GothicBold',
+        marginLeft: 30,
+        position: 'absolute',
+        zIndex: 1,
+    },
+    RecommandTextView: {
+        borderRadius: 10,
+        backgroundColor: '#eccb38',
+        width: wp('20%'),
+        height: hp('2.4%'),
+        position: 'absolute',
+        zIndex: 0,
+        left: 9,
+        bottom: 0.8,
+    },
+    CategoryView: {
+        width: wp('100%'),
+        height: hp('5%'),
+        flexDirection:'row',
+        alignItems: 'center',
+        marginTop: 30,
+        marginBottom: 15,
+    },
+
+    CategoryText: {
+        fontSize: 20,
+        color: '#000000',
+        fontFamily: 'NEXONLv1GothicBold',
+        marginLeft: 30,
+        position: 'absolute',
+        zIndex: 1,
+        
+    },
+    CateTextView: {
+        borderRadius: 10,
+        backgroundColor: '#eccb38',
+        width: wp('42%'),
+        height: hp('2.4%'),
+        position: 'absolute',
+        zIndex: 0,
+        left: 9,
+        bottom: 0.8,
     },
     ImgView: {
         // width: wp('100%'),
         // height: hp('15%'),        
         // resizeMode: 'contain',
-        borderColor: 'red', 
-        borderWidth: 1,
         // overflow: 'hidden',
         width: 150,
         height: 150,

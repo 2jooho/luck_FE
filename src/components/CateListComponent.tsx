@@ -3,58 +3,66 @@ import { View, Image, FlatList, StyleSheet, Text, SafeAreaView } from 'react-nat
 
 const DATA = [
     {
-      title: 1,
+      title: "금전",
+      img: require('../assets/images/main/categoryImg/Object-002.png'),
     },
     {
-      title: 2,
+      title: "직장인",
+      img: require('../assets/images/main/categoryImg/Object-003.png'),
     },
     {
-      title: 3,
+      title: "자영업",
+      img: require('../assets/images/main/categoryImg/Object-004.png'),
     },
     {
-      title: 4,
+      title: "연애/결혼",
+      img: require('../assets/images/main/categoryImg/Object-005.png'),
     },
     {
-      title: 5,
+      title: "취준생/면접",
+      img: require('../assets/images/main/categoryImg/Object-006.png'),
     },
     {
-      title: 6,
-    },
-    {
-      title: 7,
+      title: "학생/시험",
+      img: require('../assets/images/main/categoryImg/Object-007.png'),
     },
   ];
   
-  const Item = ({title, width}) => (
+  const Item = ({title, titleImg, width}) => (
+
     <View
       style={{
+        flexDirection: 'row',
+        alignItems: 'center', 
         width,
-        backgroundColor: '#f9c2ff',
-        padding: 20,
+
       }}>
-      <Text style={{color: 'black', fontSize: 14}}>{title}</Text>
+      <Image source={titleImg} style={styles.TitleImg}></Image>
+      <Text style={styles.TitleText}>{title}</Text>
     </View>
   );
   
+  //카테고리 목록 컴포넌트(이미지/ 텍스트 n행 3열)
   const CateListComponent = () => {
     const [containerWidth, setContainerWidth] = useState(0);
   
-    const margins = 39 * 2;
+    const margins = 35 * 2;
     const numColumns = 3;
     
     return (
-        <SafeAreaView style={{marginTop: 20, borderColor: 'black',borderWidth: 1}}>
-          <View style={{paddingHorizontal: 33}}>
+        <SafeAreaView>
+          <View style={{paddingHorizontal: 25}}>
           <FlatList
             data={DATA}
             columnWrapperStyle={{
                 justifyContent: 'space-between',
-                marginBottom: 32,
+                marginBottom: 10,
             }}
             onLayout={e => setContainerWidth(e.nativeEvent.layout.width)}
             renderItem={({item}) => (
                 <Item
                 title={item.title}
+                titleImg={item.img}
                 width={(containerWidth - margins) / numColumns}
                 />
             )}
@@ -67,3 +75,17 @@ const DATA = [
     };
 
   export default CateListComponent;
+
+
+  const styles = StyleSheet.create({
+    TitleImg: {
+      width: 20,
+      height: 20,
+      resizeMode: 'cover',
+      marginRight: 10,
+    },
+    TitleText: {
+      color: '#000000',
+      fontSize: 14,
+    },
+  })

@@ -29,6 +29,7 @@ import Main from './src/screens/Main';
 import MainPage from './src/screens/MainPage'
 import CateList from './src/screens/CateList';
 import CateList2 from './src/screens/CateList2'
+import PureLuckMain from './src/screens/PureLuckMain'
 import {useEffect, useState} from 'react';
 import * as Font from 'expo-font';
 import {Text, View, StyleSheet} from 'react-native';
@@ -51,7 +52,7 @@ const App: React.FunctionComponent = () => {
   useEffect(() => {
     const Load = async () => {
       await Font.loadAsync({
-        fonttest: require('./src/assets/fonts/NEXONLv1GothicBold.ttf'),
+        NEXONLv1GothicBold: require('./src/assets/fonts/NEXONLv1GothicBold.ttf'),
       });
       setFontLoad(true);
     };
@@ -63,14 +64,21 @@ const App: React.FunctionComponent = () => {
       <Stack.Navigator>
         <Stack.Screen
           name="MainPage"
-          component={MainPage}
+          component={PureLuckMain}
           options={{
             headerShown: false,
           }}
         />
         <Stack.Screen
-          name="CateList"
-          component={CateList}
+          name="CateList2"
+          component={CateList2}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="PureLuckMain"
+          component={PureLuckMain}
           options={{
             headerShown: false,
           }}

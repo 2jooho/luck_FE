@@ -5,6 +5,7 @@ const LIGHT_BLUE = '#74b9ff';
 const DRACULA_ORCHID = '#2d3436';
 const AMERICAN_RIVER = '';
 const BLACK = '#000000';
+const CATEMAINHEADER = '#0c0b42';
 
 const Colors = {
   normalBlueBackground: NORMAL_BLUE_BACKGROUND,
@@ -14,6 +15,7 @@ const Colors = {
   draculaOrchid: DRACULA_ORCHID,
   americanRiver: AMERICAN_RIVER,
   black: BLACK,
+  cateMainHeader: CATEMAINHEADER,
 };
 
 export default Colors;

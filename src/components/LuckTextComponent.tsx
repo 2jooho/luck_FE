@@ -4,7 +4,7 @@ import {StyleSheet, Text, View, Image} from 'react-native';
 import Colors from '../constants/Colors';
 import styled from 'styled-components/native';
 
-const LuckTextComponent = () => {
+const LuckTextComponent = ({title}) => {
 
     return(
         <>
@@ -30,9 +30,7 @@ const LuckTextComponent = () => {
             {/* 말풍선 텍스트 */}
             <TextView>
                 <LuckText>
-              {' '}
-              이봐, 너한테 날이 좋으면 뭐해? {'\n'}
-              아무것도 안하고 있으면 말짱 꽝인데!
+                {title}
                 </LuckText>
             </TextView>
         </TextImgAndTextView>
@@ -45,7 +43,7 @@ const styles = StyleSheet.create({
     luckText: {
         fontSize: wp(5),
         textAlign: 'center',
-        fontFamily: 'fonttest',
+        fontFamily: 'NEXONLv1GothicBold',
         color: Colors.black,
         margin: '3%',
     },
@@ -57,43 +55,35 @@ const styles = StyleSheet.create({
 })
 //텍스트 이미지와 텍스트 뷰
 const TextImgAndTextView = styled.View`
-  top: 5%;
   z-index: 0;
   align-items: center;
-  border-color: #0aaa00;
-  border-width: 1;
   width: 100%;
   height: 95%;
 `;
 //텍스트 이미지 뷰
 const TextImgView = styled.View`
   position: relative;
-  width: 90%;
+  width: 100%;
   height: auto;
-  border-color: #11ccff;
-  border-width: 1;
-  padding-bottom: 0;
+  bottom: -20;
 `;
 //운세 텍스트 뷰
 const TextView = styled.View`
   position: absolute;
   margin-left: 10;
   margin-right: 10;
-  border-color: #8e8e8e;
-  border-width: 1;
-  top: 10%;
+  top: 30;
 `;
 //말풍선 이미지
 const LuckTextImg = styled.Image`
   width: 100%;
   height: 100%;
 `;
-
 //말풍선 텍스트
 const LuckText = styled.Text`
-  font-size: 22px;
+  font-size: 15;
   text-align: center;
-  font-family: fonttest;
+  font-family: NEXONLv1GothicBold;
   color: ${Colors.black};
   margin: 3%;
 `;
