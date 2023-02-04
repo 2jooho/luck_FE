@@ -1,9 +1,11 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import {View, Text, SafeAreaView, FlatList, ActivityIndicator, StyleSheet, StatusBar, Image} from 'react-native';
+import {View, Text, SafeAreaView, FlatList, ActivityIndicator, StyleSheet, StatusBar, Image, ImageBackground} from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import FeedSection from '../components/FeedSection';
 import CateListHeader from '../components/CateListHeader';
+import BestDayAndTime from '../components/BestDayAndTime';
+import TodayBestDayAndTime from '../components/TodayBestDayAndTime';
 
 const PureLuckMain = () => {
     const [loading, setLoading] = useState(false);
@@ -58,6 +60,20 @@ const PureLuckMain = () => {
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" />
                     <CateListHeader />
+            <View>
+            <ImageBackground style={styles.BackgrounImgView}
+            source={require("../assets/images/pureMain/background.jpg")}  //이미지경로
+            resizeMode="cover">
+                <View style={styles.BestDayAndTimeView}>
+                    <BestDayAndTime></BestDayAndTime>
+                </View>
+                <View>
+                <Text style={styles.TodayText}> 당장 급하면 오늘과 내일 {'\n     '}좋은 시간이라도..</Text>
+                <TodayBestDayAndTime></TodayBestDayAndTime>
+                </View>
+
+            </ImageBackground>
+            </View>
             
         </SafeAreaView>
     );
@@ -65,9 +81,23 @@ const PureLuckMain = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
     },
-    
+    BackgrounImgView: {
+        width: '100%',
+        height: '100%',
+    },
+    TodayText: {
+        alignSelf: 'center',
+        fontSize: 20,
+        color: 'rgb(77, 76, 76)',
+        fontFamily: 'NEXONLv1GothicBold',
+        marginTop: 230,
+    },
+    BestDayAndTimeView: {
+        width: '100%',
+        height: '25%',
+    },
 })
 
 export default PureLuckMain;
