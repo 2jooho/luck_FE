@@ -31,6 +31,7 @@ import CateList from './src/screens/CateList';
 import CateList2 from './src/screens/CateList2'
 import PureLuckMain from './src/screens/PureLuckMain'
 import Login from './src/screens/Login'
+import Join from './src/screens/Join'
 import {useEffect, useState} from 'react';
 import * as Font from 'expo-font';
 import {Text, View, StyleSheet} from 'react-native';
@@ -42,6 +43,11 @@ import SplashScreen from 'react-native-splash-screen';
 // 스플래시 이미지 라이브러리 npm i react-native-splash-screen --save
 // 반응형 디자인을 위한 라이브러리 npm install --save react-native-responsive-dimensions
 //체크박스 라이브러리 npm i react-native-bouncy-checkbox --save
+//shadow 관련 라이브러리 npm install react-native-shadow-2
+//셀렉트 라이브러리 npm install @react-native-picker/picker  and npm install react-native-picker-select and npm install watcher and npm install react-native-svg@9
+//셀렉트 박스 멀티 라이브러리 npm install react-native-multi-selectbox
+//날짜 관련 라이브러리 yarn add @react-native-community/datetimepicker
+//날짜 관련 라이브러리 npm install react-native-date-picker
 
 //실행
 // npm run start
@@ -79,7 +85,7 @@ const App: React.FunctionComponent = () => {
       <Stack.Navigator>
         <Stack.Screen
           name="MainPage"
-          component={Login}
+          component={Join}
           options={{
             headerShown: false,
           }}

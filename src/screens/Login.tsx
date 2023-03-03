@@ -78,6 +78,7 @@ const Login = () => {
                     style={styles.TextInput}
                     onChangeText={(text) => {setIdInputText(text)}}
                     placeholder="Password"
+                    secureTextEntry={true}
                 />
                 <View style={{width: widthPercentage(700), alignItems:'flex-end'}}>
                     <BouncyCheckbox
