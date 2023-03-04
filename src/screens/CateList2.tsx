@@ -5,7 +5,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import FeedSection from '../components/FeedSection';
 import CateListHeader from '../components/CateListHeader';
 
-const CateList2 = () => {
+const CateList2 = ({navigation}) => {
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState(null);
@@ -104,7 +104,7 @@ const CateList2 = () => {
                 renderItem = {({ item }) => {
                                       // const { title, content } = item;
                                       return (
-                                          <FeedSection item={item} />
+                                          <FeedSection item={item} navigation={navigation} />
                                       )
                                   }}
 

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Image, FlatList, StyleSheet, Text, SafeAreaView } from 'react-native';
+import { View, Image, FlatList, StyleSheet, Text, SafeAreaView, Pressable} from 'react-native';
 
 const DATA = [
     {
@@ -28,7 +28,7 @@ const DATA = [
     },
   ];
   
-  const Item = ({title, titleImg, width}) => (
+  const Item = ({title, titleImg, width, navigation}) => (
 
     <View
       style={{
@@ -37,13 +37,15 @@ const DATA = [
         width,
 
       }}>
-      <Image source={titleImg} style={styles.TitleImg}></Image>
-      <Text style={styles.TitleText}>{title}</Text>
+      <Pressable onPress={() => navigation.navigate('CateList2')}>
+        <Image source={titleImg} style={styles.TitleImg}></Image>
+        <Text style={styles.TitleText}>{title}</Text>
+      </Pressable>
     </View>
   );
   
   //카테고리 목록 컴포넌트(이미지/ 텍스트 n행 3열)
-  const CateListComponent = () => {
+  const CateListComponent = ({navigation}) => {
     const [containerWidth, setContainerWidth] = useState(0);
   
     const margins = 35 * 2;
@@ -64,6 +66,7 @@ const DATA = [
                 title={item.title}
                 titleImg={item.img}
                 width={(containerWidth - margins) / numColumns}
+                navigation={navigation}
                 />
             )}
             keyExtractor={(item, index) => index}

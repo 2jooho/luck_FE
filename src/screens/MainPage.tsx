@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import styled from 'styled-components/native';
-import {StatusBar, StyleSheet, TouchableOpacity, SafeAreaView, Text, View, Image, ScrollView, RefreshControl} from 'react-native';
+import {StatusBar, StyleSheet, TouchableOpacity, SafeAreaView, Text, View, Image, ScrollView, RefreshControl, Pressable} from 'react-native';
 import Header from '../components/Header';
 import Colors from '../constants/Colors';
 import MainCateTitle from '../components/MainCateTitle';
@@ -9,9 +9,8 @@ import LuckTextComponent from '../components/LuckTextComponent'
 import LuckTextImgComponent from '../components/LuckTextImgComponent'
 import CateListComponent from '../components/CateListComponent';
 import { color } from 'react-native-reanimated';
+import axios from 'axios';
 
-//import 목록
-// npm i react-native-responsive-screen
 
 const wait = (timeout) => {
     return new Promise(resolve => {
@@ -20,6 +19,34 @@ const wait = (timeout) => {
   }
 
 const MainPage = ({navigation}) => {
+    type MainDate = {
+        nickName: string;
+    }
+    const [response, setResponse] = useState<MainDate[]>([]);
+    const [users, setUsers]: any = useState([]);
+
+    // 외부연동
+    // axios
+    let REQUEST_URL = 'http://192.168.219.100:8080/luck/main.do';
+    const [request, setRequest] = useState({
+        userId: '2week'
+    });
+    const getRefreshData = async () => {
+        try{
+            const response = await axios.post(REQUEST_URL,
+                request);
+            console.log(response);
+            setUsers(response.data); // 데이터는 response.data 안에 들어있습니다.
+            console.log(users)
+        }catch(e){
+            alert(e);
+        }
+    }
+
+    useEffect(()=> {
+        getRefreshData();
+    }, [])
+
     const [recommendImgUrl, setRecommendImgUrl] = useState(null);
     const [luckScore] = useState(60);
     const [refreshing, setRefreshing] = useState(false);
@@ -58,7 +85,7 @@ const MainPage = ({navigation}) => {
                 </View>
                 <ScrollView horizontal={true}>
                 <View style={{marginLeft: 7}}></View>
-                    <Image source={require('../assets/images/main/image-middle-001.jpg')} style={styles.ImgView}></Image>
+                <Pressable onPress={() => navigation.navigate('CateList2')}><Image source={require('../assets/images/main/image-middle-001.jpg')} style={styles.ImgView}></Image></Pressable>
                     <Image source={require('../assets/images/main/image-middle-002.jpg')} style={styles.ImgView}></Image>
                     <Image source={require('../assets/images/main/image-middle-003.jpg')} style={styles.ImgView}></Image>
                 <View style={{marginLeft: 7}}></View>
@@ -69,7 +96,7 @@ const MainPage = ({navigation}) => {
                     <View style={styles.CateTextView}></View>
                 </View>
                 <View style={{width: '100%', height: 'auto'}}>
-                    <CateListComponent ></CateListComponent>
+                    <CateListComponent navigation={navigation}></CateListComponent>
                 </View>
                 {/* 캘린더 이미지 */}
                 <Image source={require('../assets/images/main/image-low-001.jpg')} style={styles.ScheduleImgView}></Image>

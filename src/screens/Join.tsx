@@ -12,7 +12,7 @@ import * as moment from 'moment'
 import 'moment/locale/ko';
 
 
-const Join = () => {
+const Join = ({navigation}) => {
     const [idInputText, setIdInputText] = useState('');
     const [pickerSelect, setPickerSelect] = useState('');
     const [genderType, setGenderType] = useState('M');
@@ -228,7 +228,10 @@ const Join = () => {
                         </View>
                         <TouchableOpacity
                                 style={{backgroundColor:'#fafa', width:widthPercentage(700), height: heightPercentage(100), alignSelf:'center', justifyContent:'center', marginTop:15, borderRadius:5}}
-                                onPress={() => console.log("aa")}>
+                                onPress={() => {
+                                    Alert.alert("회원가입이 완료 되었습니다.");
+                                    navigation.navigate('Login');
+                                }}>
                                 <Text style={{fontSize:fontPercentage(15), color:'#ffffff', textAlign:'center'}}>가입하기</Text>
                         </TouchableOpacity>
                     </View>
@@ -288,6 +291,8 @@ const styles = StyleSheet.create({
     },
     IdTextInput: {
         marginLeft:5,
+        padding:0,
+        margin:0,
         paddingHorizontal: 10,
         width: widthPercentage(560),
         height: heightPercentage(90),
@@ -308,6 +313,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     PhoneTextInput: {
+        padding:0,
+        margin:0,
         marginLeft:5,
         paddingHorizontal: 10,
         width: widthPercentage(235),

@@ -48,6 +48,8 @@ import SplashScreen from 'react-native-splash-screen';
 //셀렉트 박스 멀티 라이브러리 npm install react-native-multi-selectbox
 //날짜 관련 라이브러리 yarn add @react-native-community/datetimepicker
 //날짜 관련 라이브러리 npm install react-native-date-picker
+//날짜 형식 변환 라이브러리 npm install moment --save
+//asyncStorage 사용 라이브러리 npm i @react-native-community/async-storage
 
 //실행
 // npm run start
@@ -55,6 +57,9 @@ import SplashScreen from 'react-native-splash-screen';
 
 // 클린
 //cd android && gradlew clean
+
+//안드로이드 apk 생성 라이브러리
+//npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/
 
 const Stack = createStackNavigator();
 
@@ -83,9 +88,23 @@ const App: React.FunctionComponent = () => {
   return fontLoad ? (
     <NavigationContainer>
       <Stack.Navigator>
+      <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Join"
+          component={Join}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name="MainPage"
-          component={Join}
+          component={MainPage}
           options={{
             headerShown: false,
           }}

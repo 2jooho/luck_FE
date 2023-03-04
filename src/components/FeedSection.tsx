@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, FlatList, StyleSheet, ActivityIndicator, Text } from 'react-native';
+import { View, Image, FlatList, StyleSheet, ActivityIndicator, Text, Pressable} from 'react-native';
 
-const FeedSection = ({item}) => {
+const FeedSection = ({item, navigation}) => {
     return (
         <>
         {/* <Image source={{uri : item.imgUrl}} style={{ height: 150}} /> */}
-        <Image source={item.imgUrl} style={styles.ImgResizeMode} />
+        <Pressable onPress={() => navigation.navigate('PureLuckMain')}><Image source={item.imgUrl} style={styles.ImgResizeMode} /></Pressable>
         {/* <Text style={{ height: 100}}>{item.imgUrl}</Text> */}
         {/* <Text>{item.title}</Text> */}
         </>
