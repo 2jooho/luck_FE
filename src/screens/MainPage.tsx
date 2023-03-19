@@ -11,14 +11,13 @@ import CateListComponent from '../components/CateListComponent';
 import { color } from 'react-native-reanimated';
 import axios from 'axios';
 
-
 const wait = (timeout) => {
     return new Promise(resolve => {
       setTimeout(resolve, timeout);
     });
   }
 
-const MainPage = ({navigation}) => {
+const MainPage = ({navigation, route}) => {
     type MainDate = {
         nickName: string;
     }
@@ -28,37 +27,40 @@ const MainPage = ({navigation}) => {
     // 외부연동
     // axios
     let REQUEST_URL = 'http://192.168.219.100:8080/luck/main.do';
-    const [request, setRequest] = useState({
-        userId: '2week'
-    });
     const getRefreshData = async () => {
         try{
             const response = await axios.post(REQUEST_URL,
-                request);
+                {userId: userId}
+                );
             console.log(response);
             setUsers(response.data); // 데이터는 response.data 안에 들어있습니다.
-            console.log(users)
+            console.log("user:"+users)
         }catch(e){
-            alert(e);
+            alert("서버 오류가 발생하였습니다.");
+            console.log(e);
         }
     }
 
+    const {params} = route;
+
+    // const {params} = route;
     useEffect(()=> {
         getRefreshData();
     }, [])
 
     const [recommendImgUrl, setRecommendImgUrl] = useState(null);
-    const [luckScore] = useState(60);
     const [refreshing, setRefreshing] = useState(false);
-    const mainText = { title: ` 이봐, 너한테 날이 좋으면 뭐해?
-아무것도 안하고 있으면 말짱 꽝인데!` }
-
+    const [userId, setUserId] = useState(params ? params.userId : '');
 
     //refreshcontrol을 호출할 때 실행되는 callback함수
     const onRefresh = useCallback(() => {
       setRefreshing(true);
       wait(1000).then(() => setRefreshing(false));
     }, [])
+
+    // const recommandImgList = users.recommandCateList.map((cateList) => (
+    //     <Pressable onPress={() => navigation.navigate('CateList2')}><Image source={{uri : cateList.cateImgUrl}} style={styles.ImgView}></Image></Pressable>
+    // ))
 
     return(
         <SafeAreaView style={styles.safeView}>
@@ -69,25 +71,35 @@ const MainPage = ({navigation}) => {
 
                 {/* 대표 텍스트 */}
                  <View style={styles.luckText}>
-                    <LuckTextComponent title={mainText.title}></LuckTextComponent>
+                    <LuckTextComponent title={users.pureCntnt}></LuckTextComponent>
                 </View>
 
                 {/* 대표 이미지 */}
                 <View style={styles.luckTextImg}>
-                    <LuckTextImgComponent luckScore = {luckScore}></LuckTextImgComponent>
+                    <LuckTextImgComponent charactorFlag = {users.charactorFlag}></LuckTextImgComponent>
                 </View>
             
                 {/* 추천 */}
                 <View style={styles.RecommandView}>
                     {/* <CateListComponent title="추천" props={recommendImgUrl} ></CateListComponent> */}
+                    {/* {users.cateDtoList.cateImgDto.imgUrl}  */}
                     <Text style={styles.RecommandText}>추천</Text>
                     <View style={styles.RecommandTextView}></View>
                 </View>
                 <ScrollView horizontal={true}>
                 <View style={{marginLeft: 7}}></View>
-                <Pressable onPress={() => navigation.navigate('CateList2')}><Image source={require('../assets/images/main/image-middle-001.jpg')} style={styles.ImgView}></Image></Pressable>
-                    <Image source={require('../assets/images/main/image-middle-002.jpg')} style={styles.ImgView}></Image>
-                    <Image source={require('../assets/images/main/image-middle-003.jpg')} style={styles.ImgView}></Image>
+                {
+                    users.recommandCateList ?
+                    users.recommandCateList.map((cateList, i) => (
+                        <View key={i}>
+                            <Pressable onPress={() => navigation.navigate('CateList2')}><Image source={{uri : cateList.cateImgUrl}} style={styles.ImgView}></Image></Pressable>
+                        </View>
+                    ))
+                    : null
+                }
+                {/* <Pressable onPress={() => navigation.navigate('CateList2')}><Image source={require('../assets/images/main/image-middle-001.jpg')} style={styles.ImgView}></Image></Pressable>
+                    <Image source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/image-middle-002.jpg'}} style={styles.ImgView}></Image>
+                    <Image source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/image-middle-003.jpg'}} style={styles.ImgView}></Image> */}
                 <View style={{marginLeft: 7}}></View>
                 </ScrollView>
 
@@ -96,10 +108,10 @@ const MainPage = ({navigation}) => {
                     <View style={styles.CateTextView}></View>
                 </View>
                 <View style={{width: '100%', height: 'auto'}}>
-                    <CateListComponent navigation={navigation}></CateListComponent>
+                    <CateListComponent navigation={navigation} cateDtoList={users.cateDtoList}></CateListComponent>
                 </View>
                 {/* 캘린더 이미지 */}
-                <Image source={require('../assets/images/main/image-low-001.jpg')} style={styles.ScheduleImgView}></Image>
+                <Pressable onPress={() => alert("오픈 준비중")}><Image source={require('../assets/images/main/image-low-001.jpg')} style={styles.ScheduleImgView}></Image></Pressable>
             </ScrollView>
         </SafeAreaView>
     )
@@ -120,8 +132,8 @@ const styles = StyleSheet.create({
     //     backgroundColor: 'orange',
     // },
     luckText: {
-        width: wp('100%'),
-        height: hp('12%'),
+        width: wp('80'),
+        height: hp('12'),
         // borderColor: '#ff0000',
         // borderWidth: 1,
     }

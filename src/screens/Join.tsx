@@ -54,7 +54,7 @@ const Join = ({navigation}) => {
         <SafeAreaView style={styles.container}>
             <View>
             <ImageBackground style={styles.BackgrounImgView}
-            source={require("../assets/images/pureMain/background.jpg")}  //이미지경로
+            source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/login/login_bg-02.jpg'}}  //이미지경로
             resizeMode="cover">
                 <View style={styles.TotalView}>
                     <View style={{flex:0.24}}>

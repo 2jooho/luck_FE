@@ -10,18 +10,21 @@ import axios from 'axios';
 
 const Login = ({navigation}) => {
 
-// 외부연동
+    // 외부연동
     // axios
-    let REQUEST_URL = 'http://192.168.219.100:8080/luck/main.do';
+    let REQUEST_URL = 'http://192.168.219.100:8080/luck/auth/login';
     const [request, setRequest] = useState({
-        userId: "2WEEK"
+        // userId: {userId},
+        password: "a123456!",
+        deviceId: "",
+        osType: "2",
+        osVer:"",
+        loginType:"M"
     });
-    const getRefreshData = async () => {
+    const getLogin = async () => {
         try{
             const response = await axios.post(REQUEST_URL,
-                {
-                    userId:'2WEEK'
-                });
+                request);
             console.log(response);
             setUsers(response.data); // 데이터는 response.data 안에 들어있습니다.
         }catch(e){
@@ -29,11 +32,12 @@ const Login = ({navigation}) => {
         }
     }
 
-    useEffect(()=> {
-        getRefreshData();
-    }, [])
+    const loginClick = () => {
+        getLogin();
+    }
 
-
+    const [userId, setUserId] = useState('');
+    const [password, setPassword] = useState('');
     const [idInputText, setIdInputText] = useState('');
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
@@ -46,24 +50,26 @@ const Login = ({navigation}) => {
         <SafeAreaView style={styles.container}>
             <View>
             <ImageBackground style={styles.BackgrounImgView}
-            source={require("../assets/images/pureMain/background.jpg")}  //이미지경로
+            source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/login/login_bg-02.jpg'}}  //이미지경로
             resizeMode="cover">
-               <View style={{flex:0.9, alignItems:'center', justifyContent:'center'}}>
-                <Image source={require('../assets/images/main/Object-001.png')} style={styles.TopImage}></Image>
+               <View style={{flex:0.8, alignItems:'center', justifyContent:'center'}}>
+                <Image source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/login/login_char.png'}} style={styles.TopImage}></Image>
                </View>
-               <View style={{flex:1.1, alignItems:'center'}}>
-                <Image source={require('../assets/images/main/logo.png')} style={styles.LogoImage}></Image>
-                <Text style={{fontSize:fontPercentage(13), color:'#123456'}}>나의 운을 제대로 써 보자!<Text style={{fontWeight:'bold'}}>운빨</Text></Text>
+               <View style={{flex:1.2, alignItems:'center'}}>
+                <Image source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/login/login_text_img.png'}} style={styles.LogoImage}></Image>
+                <Text style={{fontSize:fontPercentage(13), color:'#123456', marginBottom:7}}>나의 운을 제대로 써 보자!<Text style={{fontWeight:'bold'}}>운빨</Text></Text>
                 <TextInput
                     style={styles.TextInput}
-                    onChangeText={(text) => {setIdInputText(text)}}
+                    onChangeText={(text) => {setUserId(text)}}
                     placeholder="User ID"
+                    value={userId}
                 />
                 <TextInput
                     style={styles.TextInput}
-                    onChangeText={(text) => {setIdInputText(text)}}
+                    onChangeText={(text) => {setPassword(text)}}
                     placeholder="Password"
                     secureTextEntry={true}
+                    value={password}
                 />
                 <View style={{width: widthPercentage(700), alignItems:'flex-end'}}>
                     <BouncyCheckbox
@@ -80,7 +86,7 @@ const Login = ({navigation}) => {
                 </View>
                 <TouchableOpacity
                     style={styles.LoginButton}
-                    onPress={() => navigation.navigate('MainPage')}>
+                    onPress={() => navigation.navigate('MainPage', {userId: '2WEEK'})}>
                     <Text style={{color: '#ffffff'}}>로그인</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -108,7 +114,7 @@ const Login = ({navigation}) => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.PwdFindButton}
-                        onPress={() => Alert.alert("비밀번호를 까먹었어요")}>
+                        onPress={() => loginClick()}>
                         <Text style={{color: '#000000', fontSize: fontPercentage(10), borderBottomColor:'#000000', borderBottomWidth: 1, paddingBottom:1}}>비밀번호를 까먹었어요</Text>
                     </TouchableOpacity>
                 </View>
@@ -130,15 +136,16 @@ const styles = StyleSheet.create({
     },
     TopImage: {
         resizeMode: 'contain',
-        width: widthPercentage(480),
-        height: heightPercentage(480),
+        width: widthPercentage(520),
+        height: heightPercentage(520),
         alignItems: 'center',
         justifyContent: 'center',
     },
     LogoImage: {
         resizeMode: 'contain',
-        width: widthPercentage(400),
-        marginBottom: 10
+        width: widthPercentage(380),
+        height: heightPercentage(300),
+        marginBottom: 5
     },
     TextInput: {
         marginTop: 5,

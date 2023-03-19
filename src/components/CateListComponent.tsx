@@ -4,58 +4,52 @@ import { View, Image, FlatList, StyleSheet, Text, SafeAreaView, Pressable} from 
 const DATA = [
     {
       title: "금전",
-      img: require('../assets/images/main/categoryImg/Object-002.png'),
+      img: {uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/main/bottomicon01.png'},
     },
     {
       title: "직장인",
-      img: require('../assets/images/main/categoryImg/Object-003.png'),
+      img: {uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/main/bottomicon02.png'},
     },
     {
       title: "자영업",
-      img: require('../assets/images/main/categoryImg/Object-004.png'),
+      img: {uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/main/bottomicon03.png'},
     },
     {
       title: "연애/결혼",
-      img: require('../assets/images/main/categoryImg/Object-005.png'),
+      img: {uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/main/bottomicon04.png'},
     },
     {
       title: "취준생/면접",
-      img: require('../assets/images/main/categoryImg/Object-006.png'),
+      img: {uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/main/bottomicon05.png'},
     },
     {
       title: "학생/시험",
-      img: require('../assets/images/main/categoryImg/Object-007.png'),
+      img: {uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/main/bottomicon06.png'},
     },
   ];
   
   const Item = ({title, titleImg, width, navigation}) => (
 
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center', 
-        width,
-
-      }}>
-      <Pressable onPress={() => navigation.navigate('CateList2')}>
-        <Image source={titleImg} style={styles.TitleImg}></Image>
+    <View>
+      <Pressable style={{width, flexDirection: 'row', alignItems: 'center'}} onPress={() => navigation.navigate('CateList2')}>
+        <Image source={{uri : titleImg}} style={styles.TitleImg}></Image>
         <Text style={styles.TitleText}>{title}</Text>
       </Pressable>
     </View>
   );
   
   //카테고리 목록 컴포넌트(이미지/ 텍스트 n행 3열)
-  const CateListComponent = ({navigation}) => {
+  const CateListComponent = ({navigation, cateDtoList}) => {
     const [containerWidth, setContainerWidth] = useState(0);
   
-    const margins = 35 * 2;
+    const margins = 30 * 2;
     const numColumns = 3;
     
     return (
         <SafeAreaView>
           <View style={{paddingHorizontal: 25}}>
           <FlatList
-            data={DATA}
+            data={cateDtoList}
             columnWrapperStyle={{
                 justifyContent: 'space-between',
                 marginBottom: 10,
@@ -63,8 +57,8 @@ const DATA = [
             onLayout={e => setContainerWidth(e.nativeEvent.layout.width)}
             renderItem={({item}) => (
                 <Item
-                title={item.title}
-                titleImg={item.img}
+                title={item.cateName}
+                titleImg={item.cateImgDto.imgUrl}
                 width={(containerWidth - margins) / numColumns}
                 navigation={navigation}
                 />

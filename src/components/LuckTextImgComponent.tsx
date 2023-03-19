@@ -4,14 +4,14 @@ import {StyleSheet, Image, Text} from 'react-native';
 
 const LuckTextImgComponent = (props) => {
     const [isGoodLuck, setGoodLuck] = useState(true);
-    const [luckScore, setLuckScore] = useState(props.luckScore);
+    const [charactorFlag, setCharactorFlag] = useState(props.charactorFlag);
     useEffect(() => {
-      if (luckScore >= 70) {
+      if (charactorFlag == "01") {
         setGoodLuck(true);
       } else {
         setGoodLuck(false);
       }
-    }, [luckScore]);
+    }, [charactorFlag]);
 
 
     return(
@@ -19,8 +19,8 @@ const LuckTextImgComponent = (props) => {
         <Image
             style={styles.ImgResizeMode} 
             source={isGoodLuck
-                ? require('../assets/images/main/Object-001-1.png')
-                : require('../assets/images/main/Object-001.png')}
+                ? {uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/main/char_img2.png'}
+                : {uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/main/char_img1.png'}}
         ></Image></>
     )
 }

@@ -61,6 +61,13 @@ import SplashScreen from 'react-native-splash-screen';
 //안드로이드 apk 생성 라이브러리
 //npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/
 
+//네비게이션 props 전달 라이브러리
+// npm install @react-navigation/native
+// npm install @react-navigation/native-stack
+// npm install @react-navigation/stack
+// npm install react-native-safe-area-context
+
+
 const Stack = createStackNavigator();
 
 const App: React.FunctionComponent = () => {
