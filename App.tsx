@@ -36,6 +36,8 @@ import {useEffect, useState} from 'react';
 import * as Font from 'expo-font';
 import {Text, View, StyleSheet} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
+import AsyncStorage from '@react-native-community/async-storage';
+import { NavigationContext } from '@react-navigation/native';
 
 //import 목록
 //npm install -save axios
@@ -67,17 +69,24 @@ import SplashScreen from 'react-native-splash-screen';
 // npm install @react-navigation/stack
 // npm install react-native-safe-area-context
 
+//디바이스 하드드라이브 데이터 저장
+// npm i @react-native-community/async-storage
+
 
 const Stack = createStackNavigator();
 
 const App: React.FunctionComponent = () => {
   const [fontLoad, setFontLoad] = useState(false);
-
+  const [authorizationYn, setAuthorization] = useState('N');
   // font 불러오기
   useEffect(() => {
     try {
       setTimeout(() => {
         SplashScreen.hide();
+        AsyncStorage.getItem('Authorization')
+        .then((value) => {
+          console.log(value);
+        })
       }, 1000); //스플래시 활성화 시간 1초
     } catch (e) {
       console.log(e.message);
@@ -95,16 +104,9 @@ const App: React.FunctionComponent = () => {
   return fontLoad ? (
     <NavigationContainer>
       <Stack.Navigator>
-      <Stack.Screen
+        <Stack.Screen
           name="Login"
           component={Login}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Join"
-          component={Join}
           options={{
             headerShown: false,
           }}
@@ -116,6 +118,14 @@ const App: React.FunctionComponent = () => {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="Join"
+          component={Join}
+          options={{
+            headerShown: false,
+          }}
+        />
+        
         <Stack.Screen
           name="CateList2"
           component={CateList2}
@@ -132,7 +142,8 @@ const App: React.FunctionComponent = () => {
         />
       </Stack.Navigator>
     </NavigationContainer>
-  ) : (
+  ) 
+  : (
     <View style={styles.appLoading}>
       <Text>Loading...</Text>
     </View>

@@ -2,6 +2,7 @@ import React, {useState, useCallback, useEffect} from 'react';
 import styled from 'styled-components/native';
 import {StatusBar, StyleSheet, TouchableOpacity, SafeAreaView, Text, View, Image, ScrollView, RefreshControl, Pressable} from 'react-native';
 import Header from '../components/Header';
+import MainHeader from '../components/MainHeader'
 import Colors from '../constants/Colors';
 import MainCateTitle from '../components/MainCateTitle';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
@@ -30,7 +31,13 @@ const MainPage = ({navigation, route}) => {
     const getRefreshData = async () => {
         try{
             const response = await axios.post(REQUEST_URL,
-                {userId: userId}
+                {userId: userId},
+                {
+                    headers : {
+                        "Content-Type": "application/json",
+                        "Authorization": ""+localStorage.getItem("accessToken")
+                    }
+                }
                 );
             console.log(response);
             setUsers(response.data); // 데이터는 response.data 안에 들어있습니다.
@@ -50,7 +57,7 @@ const MainPage = ({navigation, route}) => {
 
     const [recommendImgUrl, setRecommendImgUrl] = useState(null);
     const [refreshing, setRefreshing] = useState(false);
-    const [userId, setUserId] = useState(params ? params.userId : '');
+    const [userId, setUserId] = useState(params ? params.userId : '2WEEK');
 
     //refreshcontrol을 호출할 때 실행되는 callback함수
     const onRefresh = useCallback(() => {
@@ -66,7 +73,7 @@ const MainPage = ({navigation, route}) => {
         <SafeAreaView style={styles.safeView}>
                     {/* 상단 메뉴바 */}
                     <StatusBar barStyle="light-content" />
-                    <Header />
+                    <MainHeader />
             <ScrollView contentContainerStyle={styles.scrollview}>
 
                 {/* 대표 텍스트 */}

@@ -53,14 +53,14 @@ const TitleImg = styled.Image`
 `;
 //검색 이미지
 const SerchImg = styled.Image`
-  margin-left: 10;
-  width: ${wp(5)};
-  height: ${hp(5)};
+  margin-left: 12;
+  width: ${wp(6)};
+  height: ${hp(6)};
 `;
 //메뉴 선택 이미지
 const MenuImg = styled.Image`
-  width: ${wp(5)};
-  height: ${hp(5)};
+  width: ${wp(5.5)};
+  height: ${hp(5.5)};
 `;
 
 const CateListHeader = () => (
@@ -68,7 +68,7 @@ const CateListHeader = () => (
     <SerchView>
       <SerchImg
         style={styles.ImgResizeMode}
-        source={require('../assets/images/category/top-001.png')}
+        source={require('../assets/images/main/topmenu.png')}
       />
     </SerchView>
     <TitleView>
@@ -80,7 +80,7 @@ const CateListHeader = () => (
     <MenuView>
       <MenuImg
         style={styles.ImgResizeMode}
-        source={require('../assets/images/category/top-002.png')}
+        source={require('../assets/images/main/topmy.png')}
       />
     </MenuView>
   </Container>

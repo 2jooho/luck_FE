@@ -206,7 +206,7 @@ const Join = ({navigation}) => {
                             <BouncyCheckbox
                                 style={styles.checkbox1}
                                 size={7}
-                                fillColor='#504d4d'
+                                fillColor='#8e4ffa'
                                 unfillColor="#FFFFFF"
                                 text="서비스 이용약관 및 개인정보 수집이용에 동의합니다."
                                 innerIconStyle={{borderRadius: 0}}
@@ -217,7 +217,7 @@ const Join = ({navigation}) => {
                             <BouncyCheckbox
                                 style={styles.checkbox}
                                 size={7}
-                                fillColor='#504d4d'
+                                fillColor='#8e4ffa'
                                 unfillColor="#FFFFFF"
                                 text="마케팅 정보수신에 동의합니다."
                                 innerIconStyle={{borderRadius: 0}}
@@ -227,7 +227,7 @@ const Join = ({navigation}) => {
                             />
                         </View>
                         <TouchableOpacity
-                                style={{backgroundColor:'#fafa', width:widthPercentage(700), height: heightPercentage(100), alignSelf:'center', justifyContent:'center', marginTop:15, borderRadius:5}}
+                                style={{backgroundColor:'#8e4ffa', width:widthPercentage(700), height: heightPercentage(100), alignSelf:'center', justifyContent:'center', marginTop:15, borderRadius:5}}
                                 onPress={() => {
                                     Alert.alert("회원가입이 완료 되었습니다.");
                                     navigation.navigate('Login');
@@ -265,27 +265,27 @@ const styles = StyleSheet.create({
     },
     JoinText: {
         fontSize: fontPercentage(25),
-        color: '#fafa',
+        color: '#8e4ffa',
         alignSelf: 'center',
         marginTop: 50,
         fontWeight: 'bold',
     },
     JoinSmallText: {
         fontSize: fontPercentage(13),
-        color: '#fafa',
+        color: '#af9bd4',
         alignSelf: 'center',
     },
     JoinLine: {
         marginTop: 20,
         borderWidth:1,
-        borderColor: '#fafa',
+        borderColor: '#8e4ffa',
         width: widthPercentage(600),
     },
     IdTextView: {
         width: widthPercentage(240),
         borderWidth:1,
         borderRadius:5,
-        borderColor:'#fafa',
+        borderColor:'#b785fa',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -301,14 +301,14 @@ const styles = StyleSheet.create({
         borderWidth: 1
     },
     CommonText:{
-        color:'#fafa',
+        color:'#b785fa',
         fontSize: fontPercentage(10),
     },
     PhoneTextView: {
         width: widthPercentage(150),
         borderWidth:1,
         borderRadius:5,
-        borderColor:'#fafa',
+        borderColor:'#b785fa',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
         width: widthPercentage(150),
         borderWidth:1,
         borderRadius:5,
-        borderColor:'rgba(255, 170, 255, 0.667)',
+        borderColor:'#b785fa',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
         width: widthPercentage(320),
         height: heightPercentage(90),
         borderRadius: 5,
-        borderColor: '#fafa',
+        borderColor: '#b785fa',
         borderWidth: 1,
     },
     DisableGenderBtn: {
@@ -349,14 +349,14 @@ const styles = StyleSheet.create({
         width: widthPercentage(320),
         height: heightPercentage(90),
         borderRadius: 5,
-        borderColor: 'gray',
+        borderColor: '#9f9f9f',
         borderWidth: 1,
     },
     AbleGender:{
-        color: '#fafa',
+        color: '#8064a0',
     },
     DisableGender: {
-        color: 'gray', 
+        color: '#9f9f9f ', 
         opacity:0.5
     },
     BirthTextView: {
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
         height: heightPercentage(150),
         borderWidth:1,
         borderRadius:5,
-        borderColor:'#fafa',
+        borderColor:'#b785fa',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -393,7 +393,7 @@ const pickerSelectStyles = StyleSheet.create({
         fontSize: fontPercentage(10),
         width: widthPercentage(235),
         height: heightPercentage(90),
-        color: '#000000',
+        color: '#9f9f9f',
         borderColor: 'gray', 
         borderWidth: 1, 
         borderRadius: 5,
@@ -404,7 +404,7 @@ const pickerSelectStyles = StyleSheet.create({
         fontSize: fontPercentage(10),
         width: widthPercentage(235),
         height: heightPercentage(90),
-        color: '#000000',
+        color: '#9f9f9f',
         borderColor: 'gray', 
         borderWidth: 1, 
         borderRadius: 5,
@@ -418,7 +418,7 @@ const birthTypePickerSelectStyles = StyleSheet.create({
         fontSize: fontPercentage(10),
         width: widthPercentage(180),
         height: heightPercentage(90),
-        color: '#000000',
+        color: '#9f9f9f',
         borderColor: 'gray', 
         borderWidth: 1, 
         borderRadius: 5,
@@ -429,7 +429,7 @@ const birthTypePickerSelectStyles = StyleSheet.create({
         fontSize: fontPercentage(10),
         width: widthPercentage(150),
         height: heightPercentage(90),
-        color: '#000000',
+        color: '#9f9f9f',
         borderColor: 'gray', 
         borderWidth: 1, 
         borderRadius: 5,
@@ -443,7 +443,7 @@ const birthTimePickerSelectStyles = StyleSheet.create({
         fontSize: fontPercentage(10),
         width: widthPercentage(570),
         height: heightPercentage(90),
-        color: '#000000',
+        color: '#9f9f9f',
         borderColor: 'gray', 
         borderWidth: 1, 
         borderRadius: 5,
@@ -454,7 +454,7 @@ const birthTimePickerSelectStyles = StyleSheet.create({
         fontSize: fontPercentage(10),
         width: widthPercentage(570),
         height: heightPercentage(90),
-        color: '#000000',
+        color: '#9f9f9f',
         borderColor: 'gray', 
         borderWidth: 1, 
         borderRadius: 5,

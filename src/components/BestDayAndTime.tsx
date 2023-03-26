@@ -1,10 +1,9 @@
 
 import React, {useState} from 'react';
 import {StyleSheet, Image, Text, SafeAreaView, View, ImageBackground} from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
-const BestDayAndTime = (props) => {
-  const [data, setData] = useState([{}])
-
+const BestDayAndTime = ({data}: any) => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -14,24 +13,26 @@ const BestDayAndTime = (props) => {
       <ImageBackground style={styles.BestMainImage}
                 source={require("../assets/images/pureMain/box-001.png")}  //이미지경로
                 resizeMode="contain">
+
         <Image style={styles.FirstImg}
                 source={require("../assets/images/pureMain/box-002.png")}  //이미지경로
                 resizeMode="contain">
         </Image>
-        <Text style={styles.FirstDayText}>2022. 07. 25</Text>
-        <Text style={styles.FirstTimeText}>15~17시</Text>
+        <Text style={styles.FirstDayText}>{data.bestDayAndTimeList[0]?.bestDate}</Text>
+        <Text style={styles.FirstTimeText}>{data.bestDayAndTimeList[0]?.bestTime}시</Text>
         <Image style={styles.FirstIconImg}
-                source={require("../assets/images/pureMain/icon-001.png")}  //이미지경로
+                source={{uri : data.bestDayAndTimeList[0]?.versYearImgUrl}}  //이미지경로
                 resizeMode="contain">
         </Image>
+
         <Image style={styles.SecondImg}
                 source={require("../assets/images/pureMain/box-003.png")}  //이미지경로
                 resizeMode="contain">
         </Image>
-        <Text style={styles.SecondDayText}>2022. 08. 02</Text>
-        <Text style={styles.SecondTimeText}>15~17시</Text>
+        <Text style={styles.SecondDayText}>{data.bestDayAndTimeList[1]?.bestDate}</Text>
+        <Text style={styles.SecondTimeText}>{data.bestDayAndTimeList[1]?.bestTime}시</Text>
         <Image style={styles.SecondIconImg}
-                source={require("../assets/images/pureMain/icon-002.png")}  //이미지경로
+                source={{uri : data.bestDayAndTimeList[1]?.versYearImgUrl}}  //이미지경로
                 resizeMode="contain">
         </Image>
       </ImageBackground>
@@ -49,79 +50,80 @@ const styles = StyleSheet.create({
     height: '100%',
 },
 TopView: {
-  marginTop: 60,
-  marginLeft: 30,
-  backgroundColor:'#000009',
-  width:'65%',
-  height:'12%',
-  alignSelf:'flex-start',
+  marginTop: hp(7),
+  marginLeft: wp(10),
+  backgroundColor: '#000009',
+  width: wp(65),
+  height: hp(4.5),
+  alignSelf: 'flex-start',
   flexDirection: 'row',
-  justifyContent:'center',
-  alignItems:'center',
-  borderTopLeftRadius:10,
-  borderTopRightRadius:10,
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderTopLeftRadius: 10,
+  borderTopRightRadius: 10,
 },
 TopText: {
-  fontSize:16.5,
+  fontSize: wp(4.5),
   color:'#6d6c23',
   fontWeight: 'bold',
 },
 FirstIconImg: {
-  top: 32,
-  left: 80,
+  top: hp(4.5),
+  left: wp(20),
   position: 'absolute',
-  width: 50,
+  width: wp(13),
 },
 FirstDayText: {
-  top: 45,
-  paddingLeft:30,
-  fontSize:22,
+  top: hp(6.3),
+  paddingLeft: wp(7),
+  fontSize: wp(6),
   color:'rgb(77, 76, 76)',
   fontWeight: 'bold',
   alignSelf:'center',
   position: 'absolute'
 },
 FirstTimeText: {
-  top: 72,
-  left: 147,
-  fontSize:20,
+  top: hp(9.5),
+  left: wp(38),
+  fontSize: wp(5.4),
   color: 'rgb(199, 21, 175)',
   fontWeight: 'bold',
   alignSelf:'center',
   position: 'absolute'
 },
 SecondIconImg: {
-  top: 140,
-  left: 80,
+  top: hp(19),
+  left: wp(20),
   position: 'absolute',
-  width: 50,
+  width: wp(13),
 },
 SecondTimeText: {
-  top: 182,
-  left: 147,
-  fontSize:20,
+  // 182
+  top: wp(47.5),
+  left: wp(38),
+  fontSize: wp(5.4),
   color: 'rgb(44, 33, 148)',
   fontWeight: 'bold',
   alignSelf:'center',
   position: 'absolute'
 },
 SecondDayText: {
-  top: 154,
-  paddingLeft:30,
-  fontSize:22,
+  top: wp(41),
+  paddingLeft: wp(7),
+  fontSize:wp(6),
   color:'rgb(77, 76, 76)',
   fontWeight: 'bold',
   alignSelf:'center',
   position: 'absolute'
 },
 FirstImg: {
-  marginTop: 20,
-  width: '75%',
+  marginTop: hp(2.7),
+  width: wp(75),
   height: '40%',
   alignSelf:'center',
 },
 SecondImg: {
-  width: '75%',
+  width: wp(75),
   height: '40%',
   alignSelf:'center',
 }

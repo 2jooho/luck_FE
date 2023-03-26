@@ -1,75 +1,79 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {View, Text, SafeAreaView, FlatList, ActivityIndicator, StyleSheet, StatusBar, Image, ImageBackground} from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import FeedSection from '../components/FeedSection';
 import CateListHeader from '../components/CateListHeader';
 import BestDayAndTime from '../components/BestDayAndTime';
 import TodayBestDayAndTime from '../components/TodayBestDayAndTime';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
-const PureLuckMain = () => {
-    const [loading, setLoading] = useState(false);
+const PureLuckMain = ({navigator}) => {
+    const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState(null);
-    const [users, setUsers] = useState([{title: 'test1', imgUrl:require('../assets/images/main/image-middle-001.jpg')},
-    {title: 'test2', imgUrl: require('../assets/images/main/image-middle-002.jpg')}, {title: 'test3', imgUrl:require('../assets/images/main/image-middle-001.jpg')}, {title: 'test4', imgUrl:require('../assets/images/main/image-middle-002.jpg')}]);
-    const data = [{title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}]
+    const [users, setUsers] : any = useState([]);
+    // const data = [{title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}]
 
-    const [request, setRequest] = useState({
-        userId: '2week',
-        cateCode: '02',
-        page: 0,
-        pageingSize: 10
-    });
+    // const [request, setRequest] = useState({
+    //     userId: '2week',
+    //     cateCode: '02',
+    //     page: 0,
+    //     pageingSize: 10
+    // });
    
-    //fetch
-    // let REQUEST_URL = 'http://localhost:8080/luck/cateDetailList.do';
-    let REQUEST_URL = 'http://192.168.219.100:8080/api/test';
+    const [userId, setUserId] = useState('2WEEK');
+    const [pureCnctn, setPureCnctn] = useState('인술');
+    const [todayVersYear, setTodayVersYear] = useState('미');
+    const [cateCode, setCateCode] = useState('01');
+    const [cateDetailCode, setCateDetailCode] = useState('A0001');
 
-    const getData = () => fetch(REQUEST_URL,{
-        method: 'POST',
-        headers:{
-            'content-type': 'application/json',
-        },
-        // body: parameters
-        body: JSON.stringify({request})
-    // }).then(
-    //     (result) => {
-    //         if(result.ok) {
-    //             console.log(result)
-    //             result.json().then((obj) => {
-    //                     console.log(obj)
-    //                     setUsers(obj.data); // 데이터는 response.data 안에 들어있습니다.
-    //                 }
-    //             )
-    //         }
-    //     }
-    // ).catch((error) => {console.log(error)})
-    })
-        .then(response => console.log(response))
-        // .then(response => response.json())
-        .then(response => console.log(response))
-        .catch(function(error) {
-            console.log('There has been a problem with your fetch operation: ' + error.message);
-             // ADD THIS THROW error
-              throw error;})
-        // .then(json=> {setUsers(json)});
+    // 외부연동
+    // axios
+    let REQUEST_URL = 'http://192.168.219.100:8080/luck/pureLuckMain.do';
+    const getRefreshData = async () => {
+        try{
+            const response = await axios.post(REQUEST_URL,
+                {
+                 userId: userId,
+                 pureCnctn: pureCnctn,
+                 todayVersYear: todayVersYear,
+                 cateCode: cateCode,
+                 cateDetailCode: cateDetailCode
+                }
+                );
+            console.log(response);
+            setUsers(response.data); // 데이터는 response.data 안에 들어있습니다.
+            setLoading(false);
+        }catch(e){
+            alert("서버 오류가 발생하였습니다.");
+            alert(e);
+            console.log(e);
+        }
+    }
 
+    useEffect(()=> {
+        getRefreshData();
+    }, [])
 
-    return (
+    return loading ? (
+        <View style={styles.appLoading}>
+          <Text>Loading...</Text>
+        </View>
+      ) : (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" />
                     <CateListHeader />
             <View>
             <ImageBackground style={styles.BackgrounImgView}
-            source={require("../assets/images/pureMain/background.jpg")}  //이미지경로
-            resizeMode="cover">
+                source={require("../assets/images/pureMain/background.jpg")}  //이미지경로
+                resizeMode="cover">
                 <View style={styles.BestDayAndTimeView}>
-                    <BestDayAndTime></BestDayAndTime>
+                    <BestDayAndTime data = {users}></BestDayAndTime>
                 </View>
                 <View>
                 <Text style={styles.TodayText}> 당장 급하면 오늘과 내일 {'\n     '}좋은 시간이라도..</Text>
-                <TodayBestDayAndTime></TodayBestDayAndTime>
+                <TodayBestDayAndTime bestDayAndTimeDate = {users}></TodayBestDayAndTime>
                 </View>
 
             </ImageBackground>
@@ -84,20 +88,25 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     BackgrounImgView: {
-        width: '100%',
-        height: '100%',
+        width: wp(100),
+        height: hp(100),
     },
     TodayText: {
         alignSelf: 'center',
-        fontSize: 20,
+        fontSize: wp(5),
         color: 'rgb(77, 76, 76)',
         fontFamily: 'NEXONLv1GothicBold',
-        marginTop: 230,
+        marginTop: hp(29),
     },
     BestDayAndTimeView: {
-        width: '100%',
-        height: '25%',
+        width: wp(100),
+        height: hp(25),
     },
+    appLoading: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
 })
 
 export default PureLuckMain;
