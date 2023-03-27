@@ -17,7 +17,7 @@ const Login = ({navigation}) => {
     let REQUEST_URL = 'http://192.168.219.100:8080/luck/auth/login';
     const setLogin = async () => {
         try{
-            const response:any= await axios.post(REQUEST_URL,
+            await axios.post(REQUEST_URL,
                 {
                     userId: userId,
                     password: password,
@@ -26,33 +26,46 @@ const Login = ({navigation}) => {
                     osVer: '1.0',
                     loginType: 'M',
                     loginDvsn: 'B'
+                },
+                {
+                    headers: { "Content-Type": "application/json"}
                 }
-                );
-            console.log(response);
-            setUsers(response.data); // 데이터는 response.data 안에 들어있습니다.
-            // AsyncStorage.multiSet([
-            //     ['accessToken', response.data.accessToken],
-            //     ['refreshToken', response.data.refreshToken]
-            // ])
-            ///response.headers.Authorization.split('Bearer ')[1]
-            const accessToken = response.headers.get("Authorization");
-            const refreshToken = response.headers.get("RefreshToken");
-            console.log("accessToken:"+accessToken);
-            console.log("refreshToken:"+accessToken);
-            AsyncStorage.setItem('accessToken', accessToken);
-            AsyncStorage.setItem('refreshToken', refreshToken);
-            setLoginYn("Y");
+                )
+                .then((res)=> {
+                    console.log(res);
+                    setUsers(res.data); // 데이터는 response.data 안에 들어있습니다.
+                    // AsyncStorage.multiSet([
+                    //     ['accessToken', response.data.accessToken],
+                    //     ['refreshToken', response.data.refreshToken]
+                    // ])
+                    ///response.headers.Authorization.split('Bearer ')[1]
+                    // alert(JSON.stringify(res.headers));
+                    const accessToken = JSON.stringify(res.headers['Authorization'])
+                    const refreshToken = JSON.stringify(res.headers['RefreshToken'])
+                    
+                    console.log("accessToken:"+accessToken);
+                    console.log("refreshToken:"+accessToken);
+                    AsyncStorage.setItem('accessToken', accessToken);
+                    AsyncStorage.setItem('refreshToken', refreshToken);
+                    AsyncStorage.setItem('userId', userId);
+                    setLoginYn("Y");
+                })
+                .catch((e)=>{
+                    console.log(e);
+                    const statusCode : any = e.response.status; 
+                    const message : any = e.response.headers.get("resultMessage");
+                    alert(message);
+                    console.log(statusCode +"-"+message);
+                    if(message != null){
+                        alert(message);
+                    }else{
+                        alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
+                    }
+                })
+                ;
         }catch(e){
             console.log(e);
-            const statusCode : any = e.response.status; 
-            const message : any = e.response.headers.get("resultMessage");
-            alert(message);
-            console.log(statusCode +"-"+message);
-            if(message != null){
-                alert(message);
-            }else{
-                alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
-            }
+            alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
         }
     }
 
@@ -61,6 +74,57 @@ const Login = ({navigation}) => {
         if(loginYn === 'Y'){
             navigation.navigate('MainPage', {userId: users.userId})
         }
+    }
+    // 외부연동
+    // axios
+    let REQUEST_GOOGLE_LOGIN_URL = 'http://192.168.219.100:8080/luck/auth/GOOGLE/login';
+    const setGoogleLogin = async () => {
+        try{
+            await axios.get(REQUEST_GOOGLE_LOGIN_URL)
+                .then((res)=> {
+                    console.log("res"+res);
+                    setUsers(res.data); // 데이터는 response.data 안에 들어있습니다.
+                    // AsyncStorage.multiSet([
+                    //     ['accessToken', response.data.accessToken],
+                    //     ['refreshToken', response.data.refreshToken]
+                    // ])
+                    ///response.headers.Authorization.split('Bearer ')[1]
+                    // alert(JSON.stringify(res.headers));
+                    alert("구글 로긴")
+                    // const accessToken = JSON.stringify(res.headers['Authorization'])
+                    // const refreshToken = JSON.stringify(res.headers['RefreshToken'])
+                    
+                    // console.log("accessToken:"+accessToken);
+                    // console.log("refreshToken:"+accessToken);
+                    // AsyncStorage.setItem('accessToken', accessToken);
+                    // AsyncStorage.setItem('refreshToken', refreshToken);
+                    // AsyncStorage.setItem('userId', userId);
+                    setLoginYn("Y");
+                })
+                .catch((e)=>{
+                    console.log(e);
+                    const statusCode : any = e.response.status; 
+                    const message : any = e.response.headers.get("resultMessage");
+                    alert(message);
+                    console.log(statusCode +"-"+message);
+                    if(message != null){
+                        alert(message);
+                    }else{
+                        alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
+                    }
+                })
+                ;
+        }catch(e){
+            console.log(e);
+            alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
+        }
+    }
+    
+    const googleLoginClick = () => {
+        setGoogleLogin();
+        // if(loginYn === 'Y'){
+        //     navigation.navigate('MainPage', {userId: users.userId})
+        // }
     }
 
     const [loginYn, setLoginYn] = useState('N');
@@ -124,8 +188,8 @@ const Login = ({navigation}) => {
                 <View style={{flexDirection:'row', marginTop:5}}>
                     <TouchableOpacity
                         style={styles.EmailLoginButton}
-                        onPress={() => Alert.alert("이메일로 로그인 준비중")}>
-                        <Text style={{color: '#ffffff'}}>이메일로 로그인</Text>
+                        onPress={() => googleLoginClick()}>
+                        <Text style={{color: '#ffffff'}}>구글로 로그인</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.EmailJoinButton}

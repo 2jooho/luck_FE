@@ -32,6 +32,7 @@ import CateList2 from './src/screens/CateList2'
 import PureLuckMain from './src/screens/PureLuckMain'
 import Login from './src/screens/Login'
 import Join from './src/screens/Join'
+import FirstLoading from './src/screens/FirstLoading'
 import {useEffect, useState} from 'react';
 import * as Font from 'expo-font';
 import {Text, View, StyleSheet} from 'react-native';
@@ -104,6 +105,13 @@ const App: React.FunctionComponent = () => {
   return fontLoad ? (
     <NavigationContainer>
       <Stack.Navigator>
+      <Stack.Screen
+          name="FirstLoading"
+          component={FirstLoading}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name="Login"
           component={Login}

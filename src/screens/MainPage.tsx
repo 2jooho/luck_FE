@@ -35,7 +35,7 @@ const MainPage = ({navigation, route}) => {
                 {
                     headers : {
                         "Content-Type": "application/json",
-                        "Authorization": ""+localStorage.getItem("accessToken")
+                        // "Authorization": "" + localStorage.getItem("accessToken")
                     }
                 }
                 );
@@ -43,7 +43,7 @@ const MainPage = ({navigation, route}) => {
             setUsers(response.data); // 데이터는 response.data 안에 들어있습니다.
             console.log("user:"+users)
         }catch(e){
-            alert("서버 오류가 발생하였습니다.");
+            alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
             console.log(e);
         }
     }
