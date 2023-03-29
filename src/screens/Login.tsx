@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {View, Text, SafeAreaView, FlatList, ActivityIndicator, StyleSheet, StatusBar, Image, ImageBackground, TextInput, Alert} from 'react-native';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import CateListHeader from '../components/CateListHeader';
@@ -14,10 +14,10 @@ const Login = ({navigation}) => {
 
     // 외부연동
     // axios
-    let REQUEST_URL = 'http://192.168.219.100:8080/luck/auth/login';
+    let REQUEST_URL = 'http://ec2-3-34-36-9.ap-northeast-2.compute.amazonaws.com:8081/luck/auth/login';
     const setLogin = async () => {
         try{
-            await axios.post(REQUEST_URL,
+           return await axios.post(REQUEST_URL,
                 {
                     userId: userId,
                     password: password,
@@ -27,9 +27,10 @@ const Login = ({navigation}) => {
                     loginType: 'M',
                     loginDvsn: 'B'
                 },
-                {
-                    headers: { "Content-Type": "application/json"}
-                }
+                {withCredentials: true,
+                    headers: {
+                        'Content-Type' : "application/json"
+                    }}
                 )
                 .then((res)=> {
                     console.log(res);
@@ -40,19 +41,23 @@ const Login = ({navigation}) => {
                     // ])
                     ///response.headers.Authorization.split('Bearer ')[1]
                     // alert(JSON.stringify(res.headers));
-                    const accessToken = JSON.stringify(res.headers['Authorization'])
-                    const refreshToken = JSON.stringify(res.headers['RefreshToken'])
-                    
+                    const accessToken = JSON.stringify(res.headers['authorization']);
+                    const refreshToken = JSON.stringify(res.headers['refreshtoken']);
+
                     console.log("accessToken:"+accessToken);
-                    console.log("refreshToken:"+accessToken);
+                    console.log("refreshToken:"+refreshToken);
                     AsyncStorage.setItem('accessToken', accessToken);
                     AsyncStorage.setItem('refreshToken', refreshToken);
                     AsyncStorage.setItem('userId', userId);
-                    setLoginYn("Y");
+                    if(loading){
+                        AsyncStorage.setItem('loging', 'Y');
+                    }
+
+                    navigation.navigate('MainPage', {userId: users.userId});
                 })
                 .catch((e)=>{
                     console.log(e);
-                    const statusCode : any = e.response.status; 
+                    const statusCode : any = e.response.status;
                     const message : any = e.response.headers.get("resultMessage");
                     alert(message);
                     console.log(statusCode +"-"+message);
@@ -70,72 +75,36 @@ const Login = ({navigation}) => {
     }
 
     const loginClick = () => {
+        if (!userId) {
+          alert('아이디를 입력해주세요');
+          return;
+        }
+        if (!password) {
+          alert('비밀번호를 입력해주세요');
+          return;
+        }
+
         setLogin();
-        if(loginYn === 'Y'){
-            navigation.navigate('MainPage', {userId: users.userId})
-        }
     }
-    // 외부연동
-    // axios
-    let REQUEST_GOOGLE_LOGIN_URL = 'http://192.168.219.100:8080/luck/auth/GOOGLE/login';
-    const setGoogleLogin = async () => {
-        try{
-            await axios.get(REQUEST_GOOGLE_LOGIN_URL)
-                .then((res)=> {
-                    console.log("res"+res);
-                    setUsers(res.data); // 데이터는 response.data 안에 들어있습니다.
-                    // AsyncStorage.multiSet([
-                    //     ['accessToken', response.data.accessToken],
-                    //     ['refreshToken', response.data.refreshToken]
-                    // ])
-                    ///response.headers.Authorization.split('Bearer ')[1]
-                    // alert(JSON.stringify(res.headers));
-                    alert("구글 로긴")
-                    // const accessToken = JSON.stringify(res.headers['Authorization'])
-                    // const refreshToken = JSON.stringify(res.headers['RefreshToken'])
-                    
-                    // console.log("accessToken:"+accessToken);
-                    // console.log("refreshToken:"+accessToken);
-                    // AsyncStorage.setItem('accessToken', accessToken);
-                    // AsyncStorage.setItem('refreshToken', refreshToken);
-                    // AsyncStorage.setItem('userId', userId);
-                    setLoginYn("Y");
-                })
-                .catch((e)=>{
-                    console.log(e);
-                    const statusCode : any = e.response.status; 
-                    const message : any = e.response.headers.get("resultMessage");
-                    alert(message);
-                    console.log(statusCode +"-"+message);
-                    if(message != null){
-                        alert(message);
-                    }else{
-                        alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
-                    }
-                })
-                ;
-        }catch(e){
-            console.log(e);
-            alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
-        }
-    }
-    
+
     const googleLoginClick = () => {
-        setGoogleLogin();
+        // setGoogleLogin();
         // if(loginYn === 'Y'){
         //     navigation.navigate('MainPage', {userId: users.userId})
         // }
     }
 
-    const [loginYn, setLoginYn] = useState('N');
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
-    const [idInputText, setIdInputText] = useState('');
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState(null);
     const [users, setUsers] : any = useState([]);
-    const data = [{title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}]
+    const [loging, setLoging] = useState(false);
+    // const data = [{title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}]
+
+    const idInputRef = useRef<TextInput | null>(null);
+    const passwordInputRef = useRef<TextInput | null>(null);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -154,6 +123,12 @@ const Login = ({navigation}) => {
                     onChangeText={(text) => {setUserId(text)}}
                     placeholder="User ID"
                     value={userId}
+                    ref={idInputRef}
+                    returnKeyType="next"
+                    onSubmitEditing={() =>
+                        passwordInputRef.current && passwordInputRef.current.focus()
+                    }
+                    blurOnSubmit={false}
                 />
                 <TextInput
                     style={styles.TextInput}
@@ -161,6 +136,8 @@ const Login = ({navigation}) => {
                     placeholder="Password"
                     secureTextEntry={true}
                     value={password}
+                    ref={passwordInputRef}
+                    blurOnSubmit={true}
                 />
                 <View style={{width: widthPercentage(700), alignItems:'flex-end'}}>
                     <BouncyCheckbox
@@ -172,7 +149,7 @@ const Login = ({navigation}) => {
                         innerIconStyle={{borderRadius: 0}}
                         iconStyle={{borderRadius: 0}}
                         textStyle={{fontSize: fontPercentage(13), textDecorationLine:'none'}}
-                        onPress={(isChecked: boolean) => {}}
+                        onPress={(isChecked: boolean) => {setLoging(isChecked)}}
                     />
                 </View>
                 <TouchableOpacity
@@ -213,7 +190,7 @@ const Login = ({navigation}) => {
                <Text style={{fontSize: wp(2.2), alignSelf:'center', bottom:hp(2)}}>Copyrightⓒ2023 By 운빨. All right reserved.</Text>
             </ImageBackground>
             </View>
-            
+
         </SafeAreaView>
     );
 };

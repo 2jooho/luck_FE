@@ -21,7 +21,7 @@ const CateList2 = ({navigation}) => {
 
     // 외부연동
     // axios
-    let REQUEST_URL = 'http://192.168.219.100:8080/luck/cateDetailList.do';
+    let REQUEST_URL = 'http://ec2-3-34-36-9.ap-northeast-2.compute.amazonaws.com:8081/luck/cateDetailList.do';
     const getRefreshData = async () => {
         try{
             const response = await axios.post(REQUEST_URL,

@@ -46,8 +46,8 @@ const styles = StyleSheet.create({
       flex: 1
   },
   BestMainImage: {
-    width: '100%',
-    height: '100%',
+    width: wp(100),
+    height: wp(75),
 },
 TopView: {
   marginTop: hp(7),
@@ -119,12 +119,12 @@ SecondDayText: {
 FirstImg: {
   marginTop: hp(2.7),
   width: wp(75),
-  height: '40%',
+  height: hp(15),
   alignSelf:'center',
 },
 SecondImg: {
   width: wp(75),
-  height: '40%',
+  height: hp(15),
   alignSelf:'center',
 }
 })

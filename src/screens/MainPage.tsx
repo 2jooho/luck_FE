@@ -27,7 +27,7 @@ const MainPage = ({navigation, route}) => {
 
     // 외부연동
     // axios
-    let REQUEST_URL = 'http://192.168.219.100:8080/luck/main.do';
+    let REQUEST_URL = 'http://ec2-3-34-36-9.ap-northeast-2.compute.amazonaws.com:8081/luck/main.do';
     const getRefreshData = async () => {
         try{
             const response = await axios.post(REQUEST_URL,
