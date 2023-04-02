@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import styled from 'styled-components/native';
-import {StatusBar, StyleSheet, TouchableOpacity, SafeAreaView, Text, View, Image, ScrollView, RefreshControl, Pressable} from 'react-native';
+import {StatusBar, StyleSheet, TouchableOpacity, SafeAreaView, Text, View, Image, ScrollView, RefreshControl, Pressable, BackHandler, Alert} from 'react-native';
 import Header from '../components/Header';
 import MainHeader from '../components/MainHeader'
 import Colors from '../constants/Colors';
@@ -11,6 +11,8 @@ import LuckTextImgComponent from '../components/LuckTextImgComponent'
 import CateListComponent from '../components/CateListComponent';
 import { color } from 'react-native-reanimated';
 import axios from 'axios';
+import Loading from '../components/Loading';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const wait = (timeout) => {
     return new Promise(resolve => {
@@ -29,22 +31,25 @@ const MainPage = ({navigation, route}) => {
     // axios
     let REQUEST_URL = 'http://ec2-3-34-36-9.ap-northeast-2.compute.amazonaws.com:8081/luck/main.do';
     const getRefreshData = async () => {
+        setLoading(true);
         try{
             const response = await axios.post(REQUEST_URL,
                 {userId: userId},
                 {
                     headers : {
-                        "Content-Type": "application/json",
-                        // "Authorization": "" + localStorage.getItem("accessToken")
+                        "Content-Type": "application/json"
+                        // "Authorization": "" + AsyncStorage.getItem("accessToken")
                     }
                 }
                 );
             console.log(response);
             setUsers(response.data); // 데이터는 response.data 안에 들어있습니다.
             console.log("user:"+users)
+            setLoading(false);
         }catch(e){
             alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
             console.log(e);
+            setLoading(false);
         }
     }
 
@@ -52,12 +57,35 @@ const MainPage = ({navigation, route}) => {
 
     // const {params} = route;
     useEffect(()=> {
+        console.log("params:"+ params + "/params.user:"+params.userId);
         getRefreshData();
     }, [])
 
+    useEffect(() => {
+        const backAction = () => {
+          Alert.alert("앱 종료", "앱을 종료하시겠습니까?", [
+            {
+              text: "취소",
+              onPress: () => null,
+              style: "cancel"
+            },
+            { text: "확인", onPress: () => BackHandler.exitApp() }
+          ]);
+          return true;
+        };
+    
+        const backHandler = BackHandler.addEventListener(
+          "hardwareBackPress",
+          backAction
+        );
+    
+        return () => backHandler.remove();
+      }, []);
+
     const [recommendImgUrl, setRecommendImgUrl] = useState(null);
     const [refreshing, setRefreshing] = useState(false);
-    const [userId, setUserId] = useState(params ? params.userId : '2WEEK');
+    const [userId, setUserId] = useState(params.userId);
+    const [loading, setLoading] = useState(false);
 
     //refreshcontrol을 호출할 때 실행되는 callback함수
     const onRefresh = useCallback(() => {
@@ -70,6 +98,7 @@ const MainPage = ({navigation, route}) => {
     // ))
 
     return(
+        loading ? <Loading /> :
         <SafeAreaView style={styles.safeView}>
                     {/* 상단 메뉴바 */}
                     <StatusBar barStyle="light-content" />

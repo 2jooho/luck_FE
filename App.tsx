@@ -35,10 +35,11 @@ import Join from './src/screens/Join'
 import FirstLoading from './src/screens/FirstLoading'
 import {useEffect, useState} from 'react';
 import * as Font from 'expo-font';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, Alert} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-community/async-storage';
-import { NavigationContext } from '@react-navigation/native';
+import messaging from '@react-native-firebase/messaging';
+
 
 //import 목록
 //npm install -save axios
@@ -73,10 +74,27 @@ import { NavigationContext } from '@react-navigation/native';
 //디바이스 하드드라이브 데이터 저장
 // npm i @react-native-community/async-storage
 
+//fcm라이브러리
+//npm install @react-native-firebase/app @react-native-firebase/messaging
 
 const Stack = createStackNavigator();
 
 const App: React.FunctionComponent = () => {
+
+  const getFcmToken = async () => {
+    const fcmToken = await messaging().getToken();
+    console.log('[FCM Token] ', fcmToken);
+  };
+ 
+  useEffect(() => {
+    getFcmToken();
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      console.log('[Remote Message] ', JSON.stringify(remoteMessage));
+    });
+    return unsubscribe;
+  }, []);
+
+
   const [fontLoad, setFontLoad] = useState(false);
   const [authorizationYn, setAuthorization] = useState('N');
   // font 불러오기

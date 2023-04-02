@@ -9,6 +9,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
+import Loading from '../components/Loading'
 
 const Login = ({navigation}) => {
 
@@ -16,6 +17,7 @@ const Login = ({navigation}) => {
     // axios
     let REQUEST_URL = 'http://ec2-3-34-36-9.ap-northeast-2.compute.amazonaws.com:8081/luck/auth/login';
     const setLogin = async () => {
+        setLoading(true);
         try{
            return await axios.post(REQUEST_URL,
                 {
@@ -53,8 +55,8 @@ const Login = ({navigation}) => {
                         AsyncStorage.setItem('loging', 'Y');
                     }
 
-                    navigation.navigate('MainPage', {userId: users.userId});
-                })
+                    navigation.navigate('MainPage', {userId: userId});
+                }) 
                 .catch((e)=>{
                     console.log(e);
                     const statusCode : any = e.response.status;
@@ -63,14 +65,17 @@ const Login = ({navigation}) => {
                     console.log(statusCode +"-"+message);
                     if(message != null){
                         alert(message);
+                        setLoading(false);
                     }else{
                         alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
+                        setLoading(false);
                     }
                 })
                 ;
         }catch(e){
             console.log(e);
             alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
+            setLoading(false);
         }
     }
 
@@ -107,6 +112,7 @@ const Login = ({navigation}) => {
     const passwordInputRef = useRef<TextInput | null>(null);
 
     return (
+        loading ? <Loading /> :
         <SafeAreaView style={styles.container}>
             <View>
             <ImageBackground style={styles.BackgrounImgView}

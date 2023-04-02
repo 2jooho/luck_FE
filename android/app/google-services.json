@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "613725492005",
+    "project_id": "pureluck-4e57c",
+    "storage_bucket": "pureluck-4e57c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613725492005:android:11e5500a628df11f33c0cc",
+        "android_client_info": {
+          "package_name": "com.luckc_project_mac"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "613725492005-0iso27j100uvputfhstoo5aiop69cde1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe6G7evUk0d1a5TCjnrymLROt0xY6OJcY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "613725492005-0iso27j100uvputfhstoo5aiop69cde1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

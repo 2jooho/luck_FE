@@ -7,9 +7,10 @@ import CateListHeader from '../components/CateListHeader';
 import BestDayAndTime from '../components/BestDayAndTime';
 import TodayBestDayAndTime from '../components/TodayBestDayAndTime';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import Loading from '../components/Loading'
 
 const PureLuckMain = ({navigator}) => {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState(null);
     const [users, setUsers] : any = useState([]);
@@ -32,6 +33,7 @@ const PureLuckMain = ({navigator}) => {
     // axios
     let REQUEST_URL = 'http://ec2-3-34-36-9.ap-northeast-2.compute.amazonaws.com:8081/luck/pureLuckMain.do';
     const getRefreshData = async () => {
+        setLoading(true);
         try{
             const response = await axios.post(REQUEST_URL,
                 {
@@ -49,6 +51,7 @@ const PureLuckMain = ({navigator}) => {
             alert("서버 오류가 발생하였습니다.");
             alert(e);
             console.log(e);
+            setLoading(false);
         }
     }
 
@@ -56,11 +59,7 @@ const PureLuckMain = ({navigator}) => {
         getRefreshData();
     }, [])
 
-    return loading ? (
-        <View style={styles.appLoading}>
-          <Text>Loading...</Text>
-        </View>
-      ) : (
+    return loading ? <Loading /> :
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" />
                     <CateListHeader />
@@ -80,7 +79,6 @@ const PureLuckMain = ({navigator}) => {
             </View>
             
         </SafeAreaView>
-    );
 };
 
 const styles = StyleSheet.create({

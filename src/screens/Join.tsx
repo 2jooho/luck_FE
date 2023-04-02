@@ -27,6 +27,7 @@ import axios from 'axios';
 import moment from 'moment';
 //선언하지 않아도, 디바이스 혹은 locale의 시간을 불러온다. 
 import 'moment/locale/ko';	//대한민국
+import Loading from '../components/Loading'
 
 
 const Join = ({navigation}) => {
@@ -35,6 +36,7 @@ const Join = ({navigation}) => {
     // axios
     let REQUEST_JOIN_URL = 'http://ec2-3-34-36-9.ap-northeast-2.compute.amazonaws.com:8081/luck/auth/join';
     const setJoin = async () => {
+        setLoading(true);
         try{
             await axios.post(REQUEST_JOIN_URL,
                 {
@@ -67,10 +69,11 @@ const Join = ({navigation}) => {
                         console.log(message)
                         if(message != null){
                             alert(decodeURI(message));
+                            setLoading(false);
                         }else{
                             alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
+                            setLoading(false);
                         }
-                        
                     }
                 })
                 .catch((e) => {
@@ -84,11 +87,13 @@ const Join = ({navigation}) => {
                     }else{
                         alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
                     }
+                    setLoading(false);
                 })
                 ;
         }catch(e){
             console.log(e);
             alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
+            setLoading(false);
         }
     }
 
@@ -125,14 +130,17 @@ const Join = ({navigation}) => {
                     console.log(statusCode +"-"+message);
                     if(message != null){
                         alert(decodeURI(message));
+                        setLoading(false);
                     }else{
                         alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
+                        setLoading(false);
                     }
                 })
                 ;
         }catch(e){
             console.log(e);
             alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
+            setLoading(false);
         }
     }
 
@@ -301,8 +309,10 @@ const Join = ({navigation}) => {
     const telTypeInputRef = useRef<TextInput | null>(null);
     const emailInputRef = useRef<TextInput | null>(null);
     const recommandInputRef = useRef<TextInput | null>(null);
+    const [loading, setLoading] = useState(false);
 
     return (
+        loading ? <Loading /> :
         <SafeAreaView style={styles.container}>
             <View>
                 <ImageBackground style={styles.BackgrounImgView}

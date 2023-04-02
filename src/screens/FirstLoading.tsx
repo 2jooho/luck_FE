@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
+import Loading from '../components/Loading'
 
 const FirstLoading = ({navigation}) => {
 
@@ -26,7 +27,7 @@ const FirstLoading = ({navigation}) => {
 
     return (
         <View style={styles.appLoading}>
-          <Text>Loading...</Text>
+          <Loading />
         </View>
       );
 }

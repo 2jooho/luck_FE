@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: "com.google.gms.google-services" // 여기 내용을 추가해줍니다.
 
 import com.android.build.OutputFile
 
@@ -284,6 +285,10 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+    implementation 'com.facebook.fresco:animated-gif:2.5.0'
+    implementation 'com.facebook.fresco:fresco:2.5.0'
+    implementation platform('com.google.firebase:firebase-bom:31.1.0') // 여기 내용을 추가해줍니다.
+    implementation 'com.google.firebase:firebase-messaging' // 여기 내용을 추가해줍니다.
 }
 
 if (isNewArchitectureEnabled()) {

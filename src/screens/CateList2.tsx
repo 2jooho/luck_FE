@@ -5,6 +5,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import FeedSection from '../components/FeedSection';
 import CateListHeader from '../components/CateListHeader';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import Loading from '../components/Loading'
 
 const CateList2 = ({navigation}) => {
     const [loading, setLoading] = useState(false);
@@ -23,6 +24,7 @@ const CateList2 = ({navigation}) => {
     // axios
     let REQUEST_URL = 'http://ec2-3-34-36-9.ap-northeast-2.compute.amazonaws.com:8081/luck/cateDetailList.do';
     const getRefreshData = async () => {
+        setLoading(true);
         try{
             const response = await axios.post(REQUEST_URL,
                 {userId: userId,
@@ -32,9 +34,11 @@ const CateList2 = ({navigation}) => {
                 );
             console.log(response);
             setUsers(response.data); // 데이터는 response.data 안에 들어있습니다.
+            setLoading(false);
         }catch(e){
             alert("서버 오류가 발생하였습니다.");
             console.log(e);
+            setLoading(false);
         }
     }
 
@@ -48,11 +52,11 @@ const CateList2 = ({navigation}) => {
     }, [])
 
     const onEndReached = () => {
-        if(!loading) {
-            // setPage(page+1);
-            // setPageingSize(pageingSize+10);
-            getRefreshData();
-        }
+        // if(!loading) {
+        //     // setPage(page+1);
+        //     // setPageingSize(pageingSize+10);
+        //     getRefreshData();
+        // }
     }
     const _renderItem = ({item}) => (
         <View style={{borderBottomWidth:1, marginTop: 20}}>
@@ -63,6 +67,7 @@ const CateList2 = ({navigation}) => {
       );
 
     return (
+        loading ? <Loading /> :
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" />
                     <CateListHeader />
