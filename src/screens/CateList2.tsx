@@ -70,7 +70,7 @@ const CateList2 = ({navigation}) => {
         loading ? <Loading /> :
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" />
-                    <CateListHeader />
+                    <CateListHeader navigation ={navigation}/>
             <View style={styles.TopView}>
                 <Text style={styles.TopText}>다른 관련 컨텐츠 같이보기</Text>
                 

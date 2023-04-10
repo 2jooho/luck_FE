@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {View, Text, SafeAreaView, FlatList, ActivityIndicator, StyleSheet, StatusBar, Image, ImageBackground, TextInput, Alert} from 'react-native';
+import {View, Text, SafeAreaView, FlatList, ActivityIndicator, StyleSheet, StatusBar, Image, ImageBackground, TextInput, Alert, BackHandler} from 'react-native';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import CateListHeader from '../components/CateListHeader';
 import BestDayAndTime from '../components/BestDayAndTime';
@@ -10,6 +10,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import Loading from '../components/Loading'
+import { useIsFocused } from '@react-navigation/native';
 
 const Login = ({navigation}) => {
 
@@ -78,6 +79,33 @@ const Login = ({navigation}) => {
             setLoading(false);
         }
     }
+
+    const isFocused = useIsFocused(); // isFoucesd Define
+    useEffect(() => {
+        if(isFocused){
+        const backAction = () => {
+          Alert.alert("앱 종료", "앱을 종료하시겠습니까?", [
+            {
+              text: "취소",
+              onPress: () => null,
+              style: "cancel"
+            },
+            { text: "확인", onPress: () => {BackHandler.exitApp();
+                                            return true;} }
+          ]);
+          return true;
+        };
+    
+        BackHandler.addEventListener(
+          "hardwareBackPress",
+          backAction
+        );
+    
+        return () => {
+            BackHandler.removeEventListener('hardwareBackPress', backAction)
+          }
+        }
+      }, [isFocused]);
 
     const loginClick = () => {
         if (!userId) {

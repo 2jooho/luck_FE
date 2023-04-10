@@ -13,11 +13,12 @@ import { color } from 'react-native-reanimated';
 import axios from 'axios';
 import Loading from '../components/Loading';
 import AsyncStorage from '@react-native-community/async-storage';
+import { useIsFocused } from '@react-navigation/native';
 
 const wait = (timeout) => {
     return new Promise(resolve => {
       setTimeout(resolve, timeout);
-    });
+    })
   }
 
 const MainPage = ({navigation, route}) => {
@@ -61,7 +62,9 @@ const MainPage = ({navigation, route}) => {
         getRefreshData();
     }, [])
 
+    const isFocused = useIsFocused(); // isFoucesd Define
     useEffect(() => {
+        if(isFocused){
         const backAction = () => {
           Alert.alert("앱 종료", "앱을 종료하시겠습니까?", [
             {
@@ -69,18 +72,22 @@ const MainPage = ({navigation, route}) => {
               onPress: () => null,
               style: "cancel"
             },
-            { text: "확인", onPress: () => BackHandler.exitApp() }
+            { text: "확인", onPress: () => {BackHandler.exitApp();
+                                            return true;} }
           ]);
           return true;
         };
     
-        const backHandler = BackHandler.addEventListener(
+        BackHandler.addEventListener(
           "hardwareBackPress",
           backAction
         );
     
-        return () => backHandler.remove();
-      }, []);
+        return () => {
+            BackHandler.removeEventListener('hardwareBackPress', backAction)
+          }
+        }
+      }, [isFocused]);
 
     const [recommendImgUrl, setRecommendImgUrl] = useState(null);
     const [refreshing, setRefreshing] = useState(false);

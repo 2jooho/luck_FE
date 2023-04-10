@@ -25,7 +25,7 @@ const PureLuckMain = ({navigator}) => {
    
     const [userId, setUserId] = useState('2WEEK');
     const [pureCnctn, setPureCnctn] = useState('인술');
-    const [todayVersYear, setTodayVersYear] = useState('미');
+    const [todayVersYear, setTodayVersYear] = useState('술');
     const [cateCode, setCateCode] = useState('01');
     const [cateDetailCode, setCateDetailCode] = useState('A0001');
 
@@ -62,7 +62,7 @@ const PureLuckMain = ({navigator}) => {
     return loading ? <Loading /> :
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" />
-                    <CateListHeader />
+                    <CateListHeader navigation={navigator} />
             <View>
             <ImageBackground style={styles.BackgrounImgView}
                 source={require("../assets/images/pureMain/background.jpg")}  //이미지경로

@@ -24,22 +24,14 @@
 
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {NavigationContainer} from '@react-navigation/native';
-import Main from './src/screens/Main';
-import MainPage from './src/screens/MainPage'
-import CateList from './src/screens/CateList';
-import CateList2 from './src/screens/CateList2'
-import PureLuckMain from './src/screens/PureLuckMain'
-import Login from './src/screens/Login'
-import Join from './src/screens/Join'
-import FirstLoading from './src/screens/FirstLoading'
+import {NavigationContainer} from '@react-navigation/native'; 
 import {useEffect, useState} from 'react';
 import * as Font from 'expo-font';
 import {Text, View, StyleSheet, Alert} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-community/async-storage';
-import messaging from '@react-native-firebase/messaging';
-
+import DrawerNavigator from './src/route/DrawerNavigator';
+import StackNavigator from './src/route/StackNavigator';
 
 //import 목록
 //npm install -save axios
@@ -77,23 +69,10 @@ import messaging from '@react-native-firebase/messaging';
 //fcm라이브러리
 //npm install @react-native-firebase/app @react-native-firebase/messaging
 
-const Stack = createStackNavigator();
+//drawer 라이브러리
+// npm install @react-navigation/drawer
 
 const App: React.FunctionComponent = () => {
-
-  const getFcmToken = async () => {
-    const fcmToken = await messaging().getToken();
-    console.log('[FCM Token] ', fcmToken);
-  };
- 
-  useEffect(() => {
-    getFcmToken();
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('[Remote Message] ', JSON.stringify(remoteMessage));
-    });
-    return unsubscribe;
-  }, []);
-
 
   const [fontLoad, setFontLoad] = useState(false);
   const [authorizationYn, setAuthorization] = useState('N');
@@ -122,51 +101,8 @@ const App: React.FunctionComponent = () => {
 
   return fontLoad ? (
     <NavigationContainer>
-      <Stack.Navigator>
-      <Stack.Screen
-          name="FirstLoading"
-          component={FirstLoading}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="MainPage"
-          component={MainPage}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Join"
-          component={Join}
-          options={{
-            headerShown: false,
-          }}
-        />
-        
-        <Stack.Screen
-          name="CateList2"
-          component={CateList2}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="PureLuckMain"
-          component={PureLuckMain}
-          options={{
-            headerShown: false,
-          }}
-        />
-      </Stack.Navigator>
+            {/* <DrawerNavigator></DrawerNavigator> */}
+      <StackNavigator></StackNavigator>
     </NavigationContainer>
   ) 
   : (

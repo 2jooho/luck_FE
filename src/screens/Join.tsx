@@ -28,9 +28,30 @@ import moment from 'moment';
 //선언하지 않아도, 디바이스 혹은 locale의 시간을 불러온다. 
 import 'moment/locale/ko';	//대한민국
 import Loading from '../components/Loading'
-
+import messaging from '@react-native-firebase/messaging';
 
 const Join = ({navigation}) => {
+
+    const getFcmToken = async () => {
+        const fcmToken = await messaging().getToken();
+        console.log('[FCM Token] ', fcmToken);
+        messaging()
+        .subscribeToTopic("luck")
+        .then(() => {
+          Alert.alert(`구독 성공!!`);
+        })
+        .catch(() => {
+          Alert.alert(`구독 실패 ㅠㅠ`);
+        });
+      };
+     
+      useEffect(() => {
+        getFcmToken();
+        const unsubscribe = messaging().onMessage(async remoteMessage => {
+          console.log('[Remote Message] ', JSON.stringify(remoteMessage));
+        });
+        return unsubscribe;
+      }, []);
 
     // 외부연동
     // axios
