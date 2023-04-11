@@ -1,14 +1,59 @@
 
 import React, {useState} from 'react';
-import {StyleSheet, Image, Text, SafeAreaView, View} from 'react-native';
+import {StyleSheet, Image, Text, SafeAreaView, View, FlatList} from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
-const BestDayAndTime = ({bestDayAndTimeDate} : any) => {
+const BestDayAndTime = ({data} : any) => {
+
+const renderItem = ({item}) => (
+    <View>
+      <Image style={styles.FirstViewImg}
+              source={require("../assets/images/pureMain/box-004.png")}  //이미지경로
+              resizeMode="contain">
+      </Image>
+      <Image style={styles.FirstIconImg}
+              source={{uri : item.timeVersYearImg}}  //이미지경로
+              resizeMode="contain">
+      </Image>
+      <Text style={styles.FirstDayText}>오늘은
+        <Text style={{fontSize:wp(4.3)}}> {item.bestTime}</Text>
+        시가 좋아요!
+      </Text>
+    </View>
+);
 
   return (
     <SafeAreaView style={styles.container}>
       <View>
-      <Image style={styles.characterImg}
+        <Image style={styles.characterImg}
+              source={require("../assets/images/pureMain/back-character.png")}  //이미지경로
+              resizeMode="contain">
+        </Image>
+
+      <FlatList
+            data={data}
+            keyExtractor={(_, index) => index.toString()}
+            renderItem = {({ item }) => {
+              return (
+                <View>
+                  <Image style={styles.FirstViewImg}
+                          source={require("../assets/images/pureMain/box-004.png")}  //이미지경로
+                          resizeMode="contain">
+                  </Image>
+                  <Image style={styles.FirstIconImg}
+                          source={{uri : item.timeVersYearImg}}  //이미지경로
+                          resizeMode="contain">
+                  </Image>
+                  <Text style={styles.FirstDayText}>오늘은
+                    <Text style={{fontSize:wp(4.3)}}> {item.bestTime}</Text>
+                    시가 좋아요!
+                  </Text>
+              </View>
+              )
+            }}
+          />
+      
+      {/* <Image style={styles.characterImg}
                 source={require("../assets/images/pureMain/back-character.png")}  //이미지경로
                 resizeMode="contain">
         </Image>
@@ -23,7 +68,7 @@ const BestDayAndTime = ({bestDayAndTimeDate} : any) => {
         <Text style={styles.FirstDayText}>오늘은
         <Text style={{fontSize:wp(4.3)}}> {bestDayAndTimeDate.todayBestTimeList[0]?.bestTime}</Text>
         시가 좋아요!
-        </Text>
+        </Text> */}
         {/* <Image style={styles.SecondViewImg}
                 source={require("../assets/images/pureMain/box-004.png")}  //이미지경로
                 resizeMode="contain">

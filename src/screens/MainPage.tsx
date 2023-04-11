@@ -33,9 +33,14 @@ const MainPage = ({navigation, route}) => {
     let REQUEST_URL = 'http://ec2-3-34-36-9.ap-northeast-2.compute.amazonaws.com:8081/luck/main.do';
     const getRefreshData = async () => {
         setLoading(true);
+          const getUserId = await AsyncStorage.getItem('userId');
+          if(getUserId == null) {
+            alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요!");
+            return;
+          }
         try{
             const response = await axios.post(REQUEST_URL,
-                {userId: userId},
+                {userId: getUserId},
                 {
                     headers : {
                         "Content-Type": "application/json"
@@ -91,7 +96,7 @@ const MainPage = ({navigation, route}) => {
 
     const [recommendImgUrl, setRecommendImgUrl] = useState(null);
     const [refreshing, setRefreshing] = useState(false);
-    const [userId, setUserId] = useState(params.userId);
+    const [userId, setUserId] = useState('');
     const [loading, setLoading] = useState(false);
 
     //refreshcontrol을 호출할 때 실행되는 callback함수
@@ -109,7 +114,7 @@ const MainPage = ({navigation, route}) => {
         <SafeAreaView style={styles.safeView}>
                     {/* 상단 메뉴바 */}
                     <StatusBar barStyle="light-content" />
-                    <MainHeader />
+                    <MainHeader navigation ={navigation}/>
             <ScrollView contentContainerStyle={styles.scrollview}>
 
                 {/* 대표 텍스트 */}

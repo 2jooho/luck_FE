@@ -1,41 +1,63 @@
 
 import React, {useState} from 'react';
-import {StyleSheet, Image, Text, SafeAreaView, View, ImageBackground} from 'react-native';
+import {StyleSheet, Image, Text, SafeAreaView, View, ImageBackground, FlatList} from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 const BestDayAndTime = ({data}: any) => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-      <View style={styles.TopView}>
-          <Text style={styles.TopText}>가장 좋은 날과 시간 BEST</Text>
-      </View>
-      <ImageBackground style={styles.BestMainImage}
-                source={require("../assets/images/pureMain/box-001.png")}  //이미지경로
-                resizeMode="contain">
+        <View style={styles.TopView}>
+            <Text style={styles.TopText}>가장 좋은 날과 시간 BEST</Text>
+        </View>
+        <ImageBackground style={styles.BestMainImage}
+                  source={require("../assets/images/pureMain/box-001.png")}  //이미지경로
+                  resizeMode="contain">
 
-        <Image style={styles.FirstImg}
-                source={require("../assets/images/pureMain/box-002.png")}  //이미지경로
-                resizeMode="contain">
-        </Image>
-        <Text style={styles.FirstDayText}>{data.bestDayAndTimeList[0]?.bestDate}</Text>
-        <Text style={styles.FirstTimeText}>{data.bestDayAndTimeList[0]?.bestTime}시</Text>
-        <Image style={styles.FirstIconImg}
-                source={{uri : data.bestDayAndTimeList[0]?.versYearImgUrl}}  //이미지경로
-                resizeMode="contain">
-        </Image>
+          <FlatList
+            data={data}
+            keyExtractor={(_, index) => index.toString()}
+            renderItem = {({ item }) => {
+              return (
+                  <View>
+                    <Image style={styles.FirstImg}
+                            source={require("../assets/images/pureMain/box-002.png")}  //이미지경로
+                            resizeMode="contain">
+                    </Image>
+                    <Text style={styles.FirstDayText}>{item.bestDate}</Text>
+                    <Text style={styles.FirstTimeText}>{item.bestTime}시</Text>
+                    <Image style={styles.FirstIconImg}
+                            source={{uri : item.versYearImgUrl}}  //이미지경로
+                            resizeMode="contain">
+                    </Image>
+                  </View>
+              )
+            }}
+          />
 
-        <Image style={styles.SecondImg}
-                source={require("../assets/images/pureMain/box-003.png")}  //이미지경로
-                resizeMode="contain">
-        </Image>
-        <Text style={styles.SecondDayText}>{data.bestDayAndTimeList[1]?.bestDate}</Text>
-        <Text style={styles.SecondTimeText}>{data.bestDayAndTimeList[1]?.bestTime}시</Text>
-        <Image style={styles.SecondIconImg}
-                source={{uri : data.bestDayAndTimeList[1]?.versYearImgUrl}}  //이미지경로
-                resizeMode="contain">
-        </Image>
-      </ImageBackground>
+{/* 
+            <Image style={styles.FirstImg}
+                    source={require("../assets/images/pureMain/box-002.png")}  //이미지경로
+                    resizeMode="contain">
+            </Image>
+            <Text style={styles.FirstDayText}>{data.bestDayAndTimeList[0]?.bestDate}</Text>
+            <Text style={styles.FirstTimeText}>{data.bestDayAndTimeList[0]?.bestTime}시</Text>
+            <Image style={styles.FirstIconImg}
+                    source={{uri : data.bestDayAndTimeList[0]?.versYearImgUrl}}  //이미지경로
+                    resizeMode="contain">
+            </Image>
+
+            <Image style={styles.SecondImg}
+                    source={require("../assets/images/pureMain/box-003.png")}  //이미지경로
+                    resizeMode="contain">
+            </Image>
+            <Text style={styles.SecondDayText}>{data.bestDayAndTimeList[1]?.bestDate}</Text>
+            <Text style={styles.SecondTimeText}>{data.bestDayAndTimeList[1]?.bestTime}시</Text>
+            <Image style={styles.SecondIconImg}
+                    source={{uri : data.bestDayAndTimeList[1]?.versYearImgUrl}}  //이미지경로
+                    resizeMode="contain">
+            </Image> */}
+        </ImageBackground>
       </View>
     </SafeAreaView>
   );

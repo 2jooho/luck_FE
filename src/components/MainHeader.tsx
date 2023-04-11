@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Pressable} from 'react-native';
 import styled from 'styled-components/native';
 import Colors from '../constants/Colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
@@ -63,7 +63,7 @@ const MenuImg = styled.Image`
   height: ${hp(5.5)};
 `;
 
-const CateListHeader = () => (
+const CateListHeader = ({navigation}) => (
   <Container>
     <SerchView>
       <SerchImg
@@ -78,10 +78,12 @@ const CateListHeader = () => (
       />
     </TitleView>
     <MenuView>
+    <Pressable onPress={() => navigation.openDrawer()}>
       <MenuImg
         style={styles.ImgResizeMode}
         source={require('../assets/images/main/topmy.png')}
       />
+    </Pressable>
     </MenuView>
   </Container>
 );

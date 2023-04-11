@@ -9,7 +9,7 @@ import TodayBestDayAndTime from '../components/TodayBestDayAndTime';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Loading from '../components/Loading'
 
-const PureLuckMain = ({navigator}) => {
+const PureLuckMain = ({navigation}:any) => {
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState(null);
@@ -62,17 +62,19 @@ const PureLuckMain = ({navigator}) => {
     return loading ? <Loading /> :
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" />
-                    <CateListHeader navigation={navigator} />
+                    <CateListHeader navigation={navigation} />
             <View>
             <ImageBackground style={styles.BackgrounImgView}
                 source={require("../assets/images/pureMain/background.jpg")}  //이미지경로
                 resizeMode="cover">
+
                 <View style={styles.BestDayAndTimeView}>
-                    <BestDayAndTime data = {users}></BestDayAndTime>
+                    <BestDayAndTime data = {users.bestDayAndTimeList}></BestDayAndTime>
                 </View>
+
                 <View>
                 <Text style={styles.TodayText}> 당장 급하면 오늘과 내일 {'\n     '}좋은 시간이라도..</Text>
-                <TodayBestDayAndTime bestDayAndTimeDate = {users}></TodayBestDayAndTime>
+                    <TodayBestDayAndTime data2 = {users.todayBestTimeList}></TodayBestDayAndTime>
                 </View>
 
             </ImageBackground>

@@ -101,8 +101,8 @@ const App: React.FunctionComponent = () => {
 
   return fontLoad ? (
     <NavigationContainer>
-            {/* <DrawerNavigator></DrawerNavigator> */}
-      <StackNavigator></StackNavigator>
+      <DrawerNavigator></DrawerNavigator>
+      {/* <StackNavigator></StackNavigator> */}
     </NavigationContainer>
   ) 
   : (
