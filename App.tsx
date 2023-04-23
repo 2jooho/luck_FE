@@ -32,7 +32,7 @@ import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-community/async-storage';
 import DrawerNavigator from './src/route/DrawerNavigator';
 import StackNavigator from './src/route/StackNavigator';
-
+// import { GoogleSignin } from '@react-native-google-signin/google-signin';
 //import 목록
 //npm install -save axios
 // npm i react-native-responsive-screen
@@ -49,7 +49,9 @@ import StackNavigator from './src/route/StackNavigator';
 
 //실행
 // npm run start
+//npm start --reset-cache
 // react-native run-android
+//react-native start --reset-cache
 
 // 클린
 //cd android && gradlew clean
@@ -72,6 +74,17 @@ import StackNavigator from './src/route/StackNavigator';
 //drawer 라이브러리
 // npm install @react-navigation/drawer
 
+//리액트 쿼리
+// npm i react-query
+
+//리덕스 툴킷
+//npm install @reduxjs/toolkit
+
+//구글 로그인
+// npm install @react-native-google-signin/google-signin --save
+//npm install @react-native-firebase/app @react-native-firebase/auth
+
+
 const App: React.FunctionComponent = () => {
 
   const [fontLoad, setFontLoad] = useState(false);
@@ -81,6 +94,7 @@ const App: React.FunctionComponent = () => {
     try {
       setTimeout(() => {
         SplashScreen.hide();
+        // googleSigninConfigure();
         AsyncStorage.getItem('Authorization')
         .then((value) => {
           console.log(value);
@@ -98,6 +112,10 @@ const App: React.FunctionComponent = () => {
     };
     Load();
   }, []);
+
+  const googleSigninConfigure = () => {
+    // GoogleSignin.configure({ webClientId: '613725492005-eao3uk13qkbqhllhnguaola7h8e1gh37.apps.googleusercontent.com'})
+  }
 
   return fontLoad ? (
     <NavigationContainer>

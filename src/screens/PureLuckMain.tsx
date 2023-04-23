@@ -13,7 +13,7 @@ const PureLuckMain = ({navigation}:any) => {
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState(null);
-    const [users, setUsers] : any = useState([]);
+    const [users, setUsers] : any = useState();
     // const data = [{title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}]
 
     // const [request, setRequest] = useState({
@@ -44,8 +44,9 @@ const PureLuckMain = ({navigation}:any) => {
                  cateDetailCode: cateDetailCode
                 }
                 );
-            console.log(response);
+            console.log(response); 
             setUsers(response.data); // 데이터는 response.data 안에 들어있습니다.
+            // alert(JSON.stringify(response.data.bestDayAndTimeList)+"/////"+JSON.stringify(response.data.todayBestTimeList));
             setLoading(false);
         }catch(e){
             alert("서버 오류가 발생하였습니다.");
@@ -69,12 +70,12 @@ const PureLuckMain = ({navigation}:any) => {
                 resizeMode="cover">
 
                 <View style={styles.BestDayAndTimeView}>
-                    <BestDayAndTime data = {users.bestDayAndTimeList}></BestDayAndTime>
+                    <BestDayAndTime data = {users?.bestDayAndTimeList}></BestDayAndTime>
                 </View>
 
                 <View>
                 <Text style={styles.TodayText}> 당장 급하면 오늘과 내일 {'\n     '}좋은 시간이라도..</Text>
-                    <TodayBestDayAndTime data2 = {users.todayBestTimeList}></TodayBestDayAndTime>
+                    <TodayBestDayAndTime data = {users?.todayBestTimeList}></TodayBestDayAndTime>
                 </View>
 
             </ImageBackground>

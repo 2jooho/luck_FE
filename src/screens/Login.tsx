@@ -11,6 +11,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import Loading from '../components/Loading'
 import { useIsFocused } from '@react-navigation/native';
+// import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
+// import auth from '@react-native-firebase/auth';
 
 const Login = ({navigation}) => {
 
@@ -139,6 +141,17 @@ const Login = ({navigation}) => {
     const idInputRef = useRef<TextInput | null>(null);
     const passwordInputRef = useRef<TextInput | null>(null);
 
+    //구글소셜로그인
+    const onGoogleButtonPress = async () => {
+        // 첫번째 줄은 구글에 로그인하면서 유저의 idToken을 가져온다.
+        //     두번째 줄은 가져온 유저의 idToken을 이용하여 Google credential을 생성한다.
+        //     마지막 줄은 생성된 credential을 이용해 사용자를 앱으로 로그인 시킨다.
+        // const { idToken } = await GoogleSignin.signIn();
+        // console.log("idToken"+idToken);
+        // const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+        // return auth().signInWithCredential(googleCredential);
+    }
+
     return (
         loading ? <Loading /> :
         <SafeAreaView style={styles.container}>
@@ -199,7 +212,7 @@ const Login = ({navigation}) => {
                 <View style={{flexDirection:'row', marginTop:5}}>
                     <TouchableOpacity
                         style={styles.EmailLoginButton}
-                        onPress={() => googleLoginClick()}>
+                        onPress={() => onGoogleButtonPress()}>
                         <Text style={{color: '#ffffff'}}>구글로 로그인</Text>
                     </TouchableOpacity>
                     <TouchableOpacity

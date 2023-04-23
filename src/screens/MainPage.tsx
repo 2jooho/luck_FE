@@ -14,6 +14,7 @@ import axios from 'axios';
 import Loading from '../components/Loading';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useIsFocused } from '@react-navigation/native';
+import Modall from '../components/Modall';
 
 const wait = (timeout) => {
     return new Promise(resolve => {
@@ -159,7 +160,7 @@ const MainPage = ({navigation, route}) => {
                     <CateListComponent navigation={navigation} cateDtoList={users.cateDtoList}></CateListComponent>
                 </View>
                 {/* 캘린더 이미지 */}
-                <Pressable onPress={() => alert("오픈 준비중")}><Image source={require('../assets/images/main/image-low-001.jpg')} style={styles.ScheduleImgView}></Image></Pressable>
+                <Pressable onPress={() => <Modall isOpen = {true}></Modall>}><Image source={require('../assets/images/main/image-low-001.jpg')} style={styles.ScheduleImgView}></Image></Pressable>
             </ScrollView>
         </SafeAreaView>
     )
