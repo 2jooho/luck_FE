@@ -11,76 +11,131 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import Loading from '../components/Loading'
 import { useIsFocused } from '@react-navigation/native';
-// import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
-// import auth from '@react-native-firebase/auth';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
+import auth from '@react-native-firebase/auth';
+import { logIn } from '../api/Login';
+import { useQuery, useMutation } from 'react-query';
+// import { useDispatch, useSelector } from 'react-redux';
+// import Modall from '../components/Modall';
 
 const Login = ({navigation}) => {
+    // const dispatch = useDispatch(); //리덕스 툴킷
+    //리덕스 툴킷 조회
+    // const userData = useSelector((state: any) => {
+    //     return state.userDataSlicer;
+    // });
 
     // 외부연동
     // axios
-    let REQUEST_URL = 'http://ec2-3-34-36-9.ap-northeast-2.compute.amazonaws.com:8081/luck/auth/login';
-    const setLogin = async () => {
-        setLoading(true);
-        try{
-           return await axios.post(REQUEST_URL,
-                {
-                    userId: userId,
-                    password: password,
-                    deviceId: 'test',
-                    osType: '2',
-                    osVer: '1.0',
-                    loginType: 'M',
-                    loginDvsn: 'B'
-                },
-                {withCredentials: true,
-                    headers: {
-                        'Content-Type' : "application/json"
-                    }}
-                )
-                .then((res)=> {
-                    console.log(res);
-                    setUsers(res.data); // 데이터는 response.data 안에 들어있습니다.
-                    // AsyncStorage.multiSet([
-                    //     ['accessToken', response.data.accessToken],
-                    //     ['refreshToken', response.data.refreshToken]
-                    // ])
-                    ///response.headers.Authorization.split('Bearer ')[1]
-                    // alert(JSON.stringify(res.headers));
-                    const accessToken = JSON.stringify(res.headers['authorization']);
-                    const refreshToken = JSON.stringify(res.headers['refreshtoken']);
+    //리액트쿼리 useMutation(post, delete, put 방식에 많이 사용된다.)
+    const setLogin = async (data) => mutate(data);
+    const { mutate } = useMutation(logIn, {
+        retry:false,
+        onSuccess: (res: any) => {
+            console.log(res);
+            // const {data} = res;
+            setUsers(res); // 데이터는 response.data 안에 들어있습니다.
+            // dispatch(setUserData(userData));
+            // AsyncStorage.multiSet([
+            //     ['accessToken', response.data.accessToken],
+            //     ['refreshToken', response.data.refreshToken]
+            // ])
+            ///response.headers.Authorization.split('Bearer ')[1]
+            // alert(JSON.stringify(res.headers));
+            const accessToken = JSON.stringify(res.headers['authorization']);
+            const refreshToken = JSON.stringify(res.headers['refreshtoken']);
 
-                    console.log("accessToken:"+accessToken);
-                    console.log("refreshToken:"+refreshToken);
-                    AsyncStorage.setItem('accessToken', accessToken);
-                    AsyncStorage.setItem('refreshToken', refreshToken);
-                    AsyncStorage.setItem('userId', userId);
-                    if(loading){
-                        AsyncStorage.setItem('loging', 'Y');
-                    }
-
-                    navigation.navigate('MainPage', {userId: userId});
-                }) 
-                .catch((e)=>{
-                    console.log(e);
-                    const statusCode : any = e.response.status;
-                    const message : any = e.response.headers.get("resultMessage");
-                    alert(message);
-                    console.log(statusCode +"-"+message);
-                    if(message != null){
-                        alert(message);
-                        setLoading(false);
-                    }else{
-                        alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
-                        setLoading(false);
-                    }
-                })
-                ;
-        }catch(e){
-            console.log(e);
-            alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
+            console.log("accessToken:"+accessToken);
+            console.log("refreshToken:"+refreshToken);
+            AsyncStorage.setItem('accessToken', accessToken);
+            AsyncStorage.setItem('refreshToken', refreshToken);
+            AsyncStorage.setItem('userId', userId);
+            if(loading){
+                AsyncStorage.setItem('loging', 'Y');
+            }
+            //             queryClient.invalidateQueries(QUERY.KEY.USER_DATA);
+            navigation.navigate('MainPage', {userId: userId});
+        },
+        // onError: (error: unknown) => errorHandler(error),
+        onError: (error: unknown) => {
+            console.log(error+"userId:"+userId+"password"+password);
             setLoading(false);
+            setModallOpenYn(true);
+            if(error != null){
+                alert(error);
+                setLoading(false);
+            }else{
+                alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
+                setLoading(false);
+            }
+
         }
-    }
+    });
+    
+
+    // let REQUEST_URL = 'http://ec2-3-34-36-9.ap-northeast-2.compute.amazonaws.com:8081/luck/auth/login';
+    // const setLogin = async () => {
+    //     setLoading(true);
+    //     try{
+    //        return await axios.post(REQUEST_URL,
+    //             {
+    //                 userId: userId,
+    //                 password: password,
+    //                 deviceId: 'test',
+    //                 osType: '2',
+    //                 osVer: '1.0',
+    //                 loginType: 'M',
+    //                 loginDvsn: 'B'
+    //             },
+    //             {withCredentials: true,
+    //                 headers: {
+    //                     'Content-Type' : "application/json"
+    //                 }}
+    //             )
+    //             .then((res)=> {
+    //                 console.log(res);
+    //                 setUsers(res.data); // 데이터는 response.data 안에 들어있습니다.
+    //                 // AsyncStorage.multiSet([
+    //                 //     ['accessToken', response.data.accessToken],
+    //                 //     ['refreshToken', response.data.refreshToken]
+    //                 // ])
+    //                 ///response.headers.Authorization.split('Bearer ')[1]
+    //                 // alert(JSON.stringify(res.headers));
+    //                 const accessToken = JSON.stringify(res.headers['authorization']);
+    //                 const refreshToken = JSON.stringify(res.headers['refreshtoken']);
+
+    //                 console.log("accessToken:"+accessToken);
+    //                 console.log("refreshToken:"+refreshToken);
+    //                 AsyncStorage.setItem('accessToken', accessToken);
+    //                 AsyncStorage.setItem('refreshToken', refreshToken);
+    //                 AsyncStorage.setItem('userId', userId);
+    //                 if(loading){
+    //                     AsyncStorage.setItem('loging', 'Y');
+    //                 }
+
+    //                 navigation.navigate('MainPage', {userId: userId});
+    //             }) 
+    //             .catch((e)=>{
+    //                 console.log(e);
+    //                 const statusCode : any = e.response.status;
+    //                 const message : any = e.response.headers.get("resultMessage");
+    //                 alert(message);
+    //                 console.log(statusCode +"-"+message);
+    //                 if(message != null){
+    //                     alert(message);
+    //                     setLoading(false);
+    //                 }else{
+    //                     alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
+    //                     setLoading(false);
+    //                 }
+    //             })
+    //             ;
+    //     }catch(e){
+    //         console.log(e);
+    //         alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
+    //         setLoading(false);
+    //     }
+    // }
 
     const isFocused = useIsFocused(); // isFoucesd Define
     useEffect(() => {
@@ -119,7 +174,13 @@ const Login = ({navigation}) => {
           return;
         }
 
-        setLogin();
+        setLogin({userId: userId,
+                password: password,
+                deviceId: 'test',
+                osType: '2',
+                osVer: '1.0',
+                loginType: 'M',
+                loginDvsn: 'B'});
     }
 
     const googleLoginClick = () => {
@@ -137,7 +198,7 @@ const Login = ({navigation}) => {
     const [users, setUsers] : any = useState([]);
     const [loging, setLoging] = useState(false);
     // const data = [{title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}, {title: 'test', imgUrl:'../assets/images/main/logo.png'}]
-
+    const [modallOpenYn, setModallOpenYn] = useState(false);
     const idInputRef = useRef<TextInput | null>(null);
     const passwordInputRef = useRef<TextInput | null>(null);
 
@@ -149,13 +210,20 @@ const Login = ({navigation}) => {
         // const { idToken } = await GoogleSignin.signIn();
         // console.log("idToken"+idToken);
         // const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-        // return auth().signInWithCredential(googleCredential);
+        const userInfo = await GoogleSignin.signIn();
+        console.log("idToken:"+userInfo.idToken);
+        console.log("serverAuthCode:"+userInfo.serverAuthCode);
+        console.log("email:"+userInfo.user.email+"/name:"+userInfo.user.name);
+        const idToken = userInfo.idToken;
+        const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+        return auth().signInWithCredential(googleCredential);
     }
 
     return (
         loading ? <Loading /> :
         <SafeAreaView style={styles.container}>
             <View>
+            {/* <Modall openYn ={modallOpenYn}></Modall> */}
             <ImageBackground style={styles.BackgrounImgView}
             source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/login/login_bg-02.jpg'}}  //이미지경로
             resizeMode="cover">

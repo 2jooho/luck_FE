@@ -139,7 +139,7 @@ SecondDayText: {
   position: 'absolute'
 },
 FirstImg: {
-  marginTop: hp(2.7),
+  marginTop: hp(2),
   width: wp(75),
   height: hp(15),
   alignSelf:'center',

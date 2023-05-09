@@ -42,10 +42,12 @@ const BestDayAndTime = ({data}) => {
                           source={{uri : list.timeVersYearImg}}  //이미지경로
                           resizeMode="contain">
                   </Image>
-                  <Text style={styles.FirstDayText}>오늘은
-                    <Text style={{fontSize:wp(4.3)}}> {list.bestTime}</Text>
-                    시가 좋아요!
-                  </Text>
+                  <View style={styles.FirstView}>
+                    <Text style={styles.FirstDayText}>오늘은
+                      <Text style={{fontSize:wp(4.3)}}> {list.bestTime}</Text>
+                      시가 좋아요!
+                    </Text>
+                  </View>
               </View>
             ))
             : null
@@ -66,10 +68,19 @@ const styles = StyleSheet.create({
     top: hp(-4.2),
     position: 'absolute',
   },
+  FirstView:{
+    top: hp(9.5),
+    width:wp(80),
+    paddingLeft:wp(15),
+    position:'absolute',
+    alignItems:'center',
+    alignSelf:'center',
+  },
   FirstViewImg: {
     width: wp(80),
     alignSelf: 'center',
     marginTop: hp(4),
+    position:'relative'
   },
   SecondViewImg: {
     width: wp(80),
@@ -77,7 +88,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   FirstIconImg: {
-    
     top: hp(5.7),
     left: wp(15),
     position: 'absolute',
@@ -91,18 +101,14 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   FirstDayText: {
-    top: hp(9.5),
-    paddingLeft: wp(12),
-    fontSize:wp(4.5),
+    fontSize: wp(3.8),
     color:'rgb(77, 76, 76)',
     fontWeight: 'bold',
-    alignSelf:'center',
-    position: 'absolute'
   },
   SecondDayText: {
     top: hp(20),
     paddingLeft: wp(12),
-    fontSize:wp(4.5),
+    fontSize:wp(3.8),
     color:'rgb(77, 76, 76)',
     fontWeight: 'bold',
     alignSelf:'center',

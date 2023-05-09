@@ -32,6 +32,8 @@ import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-community/async-storage';
 import DrawerNavigator from './src/route/DrawerNavigator';
 import StackNavigator from './src/route/StackNavigator';
+import { GoogleSignin} from '@react-native-google-signin/google-signin';
+import { QueryClient, QueryClientProvider } from "react-query";
 // import { GoogleSignin } from '@react-native-google-signin/google-signin';
 //import 목록
 //npm install -save axios
@@ -50,7 +52,7 @@ import StackNavigator from './src/route/StackNavigator';
 //실행
 // npm run start
 //npm start --reset-cache
-// react-native run-android
+//react-native run-android
 //react-native start --reset-cache
 
 // 클린
@@ -84,6 +86,18 @@ import StackNavigator from './src/route/StackNavigator';
 // npm install @react-native-google-signin/google-signin --save
 //npm install @react-native-firebase/app @react-native-firebase/auth
 
+//encrypted-storage
+//npm install react-native-encrypted-storage
+
+//핸드폰 정보 조회
+//npm install --save react-native-device-info
+
+//앱 버전 정보 조회
+//npm install --save react-native-version-check
+
+//env라이브러리
+//npm install -dev react-native-dotenv
+
 
 const App: React.FunctionComponent = () => {
 
@@ -94,7 +108,7 @@ const App: React.FunctionComponent = () => {
     try {
       setTimeout(() => {
         SplashScreen.hide();
-        // googleSigninConfigure();
+        googleSigninConfigure();
         AsyncStorage.getItem('Authorization')
         .then((value) => {
           console.log(value);
@@ -114,13 +128,17 @@ const App: React.FunctionComponent = () => {
   }, []);
 
   const googleSigninConfigure = () => {
-    // GoogleSignin.configure({ webClientId: '613725492005-eao3uk13qkbqhllhnguaola7h8e1gh37.apps.googleusercontent.com'})
+    GoogleSignin.configure({ webClientId: '613725492005-eao3uk13qkbqhllhnguaola7h8e1gh37.apps.googleusercontent.com'})
   }
 
+  const queryClient = new QueryClient();
+  
   return fontLoad ? (
     <NavigationContainer>
-      <DrawerNavigator></DrawerNavigator>
-      {/* <StackNavigator></StackNavigator> */}
+      <QueryClientProvider client={queryClient}>
+        <DrawerNavigator></DrawerNavigator>
+        {/* <StackNavigator></StackNavigator> */}
+      </QueryClientProvider>
     </NavigationContainer>
   ) 
   : (
