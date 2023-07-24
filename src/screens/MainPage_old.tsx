@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useEffect, useRef} from 'react';
 import styled from 'styled-components/native';
-import {TextInput, PanResponder, Dimensions, StatusBar, StyleSheet, TouchableOpacity, SafeAreaView, Text, View, Image, ScrollView, RefreshControl, Pressable, BackHandler, Alert, Modal, TouchableWithoutFeedback, Animated} from 'react-native';
+import {PanResponder, Dimensions, StatusBar, StyleSheet, TouchableOpacity, SafeAreaView, Text, View, Image, ScrollView, RefreshControl, Pressable, BackHandler, Alert, Modal, TouchableWithoutFeedback, Animated} from 'react-native';
 import Header from '../components/Header';
 import MainHeader from '../components/MainHeader'
 import Colors from '../constants/Colors';
@@ -14,11 +14,7 @@ import axios from 'axios';
 import Loading from '../components/Loading';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useIsFocused } from '@react-navigation/native';
-import { useQuery} from 'react-query';
-import {mainPage} from "../api/Category";
-import { transform } from '@babel/core';
-import { LinearGradient } from 'react-native-svg';
-
+import Modall from '../components/Modall';
 
 const wait = (timeout) => {
     return new Promise(resolve => {
@@ -32,31 +28,45 @@ const MainPage = ({navigation, route}) => {
     }
     const [response, setResponse] = useState<MainDate[]>([]);
     const [users, setUsers]: any = useState([]);
-    const [recommendImgUrl, setRecommendImgUrl] = useState(null);
-    const [refreshing, setRefreshing] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [serch, setSerch] = useState('');
-
-    const serchInputRef = useRef<TextInput | null>(null);
 
     // 외부연동
     // axios
-    const {data: mainInfo} = useQuery('mainPage', ()=>mainPage(), {
-        // retry: false,
-        onSuccess: (res: any) => {
+    let REQUEST_URL = 'http://ec2-3-34-36-9.ap-northeast-2.compute.amazonaws.com:8081/luck/main.do';
+    const getRefreshData = async () => {
+        setLoading(true);
+          const getUserId = await AsyncStorage.getItem('userId');
+          if(getUserId == null) {
+            alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요!");
+            return;
+          }
+        try{
+            const response = await axios.post(REQUEST_URL,
+                {userId: getUserId},
+                {
+                    headers : {
+                        "Content-Type": "application/json"
+                        // "Authorization": "" + AsyncStorage.getItem("accessToken")
+                    }
+                }
+                );
+            console.log(response);
+            setUsers(response.data); // 데이터는 response.data 안에 들어있습니다.
+            console.log("user:"+users)
             setLoading(false);
-        },
-        onError: (error:unknown) => {
-            if(error != null){
-                alert(error);
-                setLoading(false);
-            }else{
-                alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
-                setLoading(false);
-            }
-        },
-    });
+        }catch(e){
+            alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
+            console.log(e);
+            setLoading(false);
+        }
+    }
+
+    const {params} = route;
+
+    // const {params} = route;
+    useEffect(()=> {
+        console.log("params:"+ params + "/params.user:"+params.userId);
+        getRefreshData();
+    }, [])
 
     const isFocused = useIsFocused(); // isFoucesd Define
     useEffect(() => {
@@ -85,6 +95,12 @@ const MainPage = ({navigation, route}) => {
         }
       }, [isFocused]);
 
+    const [recommendImgUrl, setRecommendImgUrl] = useState(null);
+    const [refreshing, setRefreshing] = useState(false);
+    const [userId, setUserId] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
     const handleModalOpen = () => {
         setIsModalVisible(true);
     };
@@ -107,70 +123,53 @@ const MainPage = ({navigation, route}) => {
                     {/* 상단 메뉴바 */}
                     <StatusBar barStyle="light-content" />
                     <MainHeader navigation ={navigation}/>
-                {/* 상단 검색어 */}
-                <View style={styles.View1}>
-                    <View style={styles.SerchView}>
-                        <Image style={styles.SerchImg}
-                        source={require('../assets/images/main/topmy.png')}></Image>
-                        <TextInput
-                                    style={styles.SerchText}
-                                    onChangeText={(serch) => setSerch(serch)}
-                                    secureTextEntry={false}
-                                    ref={serchInputRef}
-                                    blurOnSubmit={false}
-                                    spellCheck={false}
-                                    maxLength={15}
-                                    placeholder="검색어를 입력하세요."
-                                />
-                    </View>
-                </View>
-                
-                {/* 운세내용 */}
-                <View style={styles.View2}>
-                     {/* 대표 텍스트 */}
-                    {/* <View style={styles.luckTextView}> */}
-                        <LuckTextComponent title={mainInfo.data.pureCntnt}></LuckTextComponent>
-                    {/* </View> */}
 
-                    {/* 대표 이미지 */}
-                    <View style={styles.luckTextImg}>
-                        <LuckTextImgComponent charactorFlag = {mainInfo.data.charactorFlag}></LuckTextImgComponent>
-                    </View>
+            <ScrollView contentContainerStyle={styles.scrollview}>
+                {/* 대표 텍스트 */}
+                 <View style={styles.luckText}>
+                    <LuckTextComponent title={users.pureCntnt}></LuckTextComponent>
+                </View>
+
+                {/* 대표 이미지 */}
+                <View style={styles.luckTextImg}>
+                    <LuckTextImgComponent charactorFlag = {users.charactorFlag}></LuckTextImgComponent>
                 </View>
             
-                {/* 추천 및 카테고리 */}
-                <View style={styles.View3}>
-                    {/* 추천 */}
-                    <View style={styles.RecommandView}>
-                        <Text style={styles.CategoryText}>추천 컨텐츠</Text>
-                    </View>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                        {
-                            mainInfo.data.recommandCateList ?
-                            mainInfo.data.recommandCateList.map((cateList, i) => (
-                                <View key={i} style={styles.recommandView}>
-                                    <Pressable onPress={() => navigation.navigate('CateList3')} style={styles.recommandPressView}>
-                                        <Image source={{uri : cateList.cateImgUrl}} style={styles.recommandImg}></Image>
-                                    </Pressable>
-                                </View>
-                            ))
-                            : null
-                        }
-                    </ScrollView>
-
-                    {/* 카테고리 */}
-                    <View style={styles.CategoryView}>
-                        <Text style={styles.CategoryText}>카테고리</Text>
-                    </View>
-                    <View style={styles.CategoryViewMain}>
-                        <CateListComponent navigation={navigation} cateDtoList={mainInfo.data.cateDtoList}></CateListComponent>
-                    </View>
+                {/* 추천 */}
+                <View style={styles.RecommandView}>
+                    {/* <CateListComponent title="추천" props={recommendImgUrl} ></CateListComponent> */}
+                    {/* {users.cateDtoList.cateImgDto.imgUrl}  */}
+                    <Text style={styles.RecommandText}>추천</Text>
+                    <View style={styles.RecommandTextView}></View>
                 </View>
+                <ScrollView horizontal={true}>
+                <View style={{marginLeft: 7}}></View>
+                {
+                    users.recommandCateList ?
+                    users.recommandCateList.map((cateList, i) => (
+                        <View key={i}>
+                            <Pressable onPress={() => navigation.navigate('CateList3')}><Image source={{uri : cateList.cateImgUrl}} style={styles.ImgView}></Image></Pressable>
+                        </View>
+                    ))
+                    : null
+                }
+                {/* <Pressable onPress={() => navigation.navigate('CateList2')}><Image source={require('../assets/images/main/image-middle-001.jpg')} style={styles.ImgView}></Image></Pressable>
+                    <Image source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/image-middle-002.jpg'}} style={styles.ImgView}></Image>
+                    <Image source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/image-middle-003.jpg'}} style={styles.ImgView}></Image> */}
+                <View style={{marginLeft: 7}}></View>
+                </ScrollView>
 
-                {/* 하단 캘린더 이미지 */}
+                <View style={styles.CategoryView}>
+                    <Text style={styles.CategoryText}>질문 카테고리</Text>
+                    <View style={styles.CateTextView}></View>
+                </View>
+                <View style={{width: '100%', height: 'auto'}}>
+                    <CateListComponent navigation={navigation} cateDtoList={users.cateDtoList}></CateListComponent>
+                </View>
+                {/* 캘린더 이미지 */}
                 <Pressable onPress={() => setIsModalVisible(!isModalVisible)}><Image source={require('../assets/images/main/image-low-001.jpg')} style={styles.ScheduleImgView}></Image></Pressable>
+            </ScrollView>
             
-                {/* 모달창 */}
                 <Modal //모달창
                     animationType={"none"} //slide, fade, none
                     transparent={true}
@@ -209,56 +208,31 @@ const styles = StyleSheet.create({
     safeView: {
         flex: 1,
         bottom: 0,
-        backgroundColor:'#5f4a98',
-    },
-    View1:{
-        flex:0.24,
-        alignItems:'center',
-        justifyContent:'center',
-    },
-    View2:{
-        flex:0.65,
         backgroundColor:'#ffffff',
-        marginTop:hp(1),
-        alignItems:'center',
     },
-    View3:{
-        flex:1,
-        backgroundColor:'#ffffff',
-        marginTop:hp(1),
-    },
-    SerchView:{
-        width: wp(90),
-        height: hp(6.5),
-        backgroundColor:'#ffffff',
-        borderWidth: 1,
-        borderRadius:13,
-        borderColor:'#c1b9b8',
-        marginTop:wp(1),
-        flexDirection:'row',
-        alignItems:'center',
-    },
-    SerchImg:{
-        resizeMode:'contain',
-        width:wp(8),
-        height:hp(4),
-        backgroundColor:'#111111',
-        marginLeft:wp(5)
-    },
-    SerchText:{ 
-        width:wp(67),
-        height:hp(5),
-        margin:0,
-        padding:0,
-        marginLeft:hp(2),
-        fontSize:wp(4),
-        fontWeight:'700',
-        lineHeight:hp(5),
-    },
-    luckTextImg: {
-        width: wp(60),
-        height: hp(14),
+    scrollview: {
         alignItems: 'center',
+    },
+    luckText: {
+        width: wp('80'),
+        height: hp('12'),
+        // borderColor: '#ff0000',
+        // borderWidth: 1,
+    }
+    ,
+    luckTextImg: {
+        // top: hp('1%'),
+        width: wp('100%'),
+        height: hp('22%'),
+        alignItems: 'center',
+    },
+    RecommandView: {
+        width: wp('100%'),
+        height: hp('5%'),
+        flexDirection:'row',
+        alignItems: 'center',
+        fontSize: 30,
+        marginBottom: 5,
     },
     RecommandText: {
         fontSize: 20,
@@ -278,64 +252,50 @@ const styles = StyleSheet.create({
         left: 9,
         bottom: 0.8,
     },
-    RecommandView: {
-        width: wp(100),
-        height: hp(5),
-        flexDirection:'row',
-        alignItems: 'center',
-        marginTop: wp(2.8),
-        borderTopWidth:0.8,
-        borderBottomWidth:0.8,
-        borderColor:'#5f4a98',
-    },
     CategoryView: {
-        width: wp(100),
-        height: hp(5),
+        width: wp('100%'),
+        height: hp('5%'),
         flexDirection:'row',
         alignItems: 'center',
-        borderTopWidth:0.8,
-        borderBottomWidth:0.8,
-        borderColor:'#5f4a98',
+        marginTop: 30,
+        marginBottom: 15,
     },
+
     CategoryText: {
-        fontSize: wp(3.7),
-        color: '#5f4a98',
+        fontSize: 20,
+        color: '#000000',
         fontFamily: 'NEXONLv1GothicBold',
-        marginLeft: wp(4),
+        marginLeft: 30,
+        position: 'absolute',
+        zIndex: 1,
+        
     },
     CateTextView: {
         borderRadius: 10,
         backgroundColor: '#eccb38',
-        width: wp(42),
-        height: hp(2.4),
+        width: wp('42%'),
+        height: hp('2.4%'),
         position: 'absolute',
         zIndex: 0,
         left: 9,
         bottom: 0.8,
     },
-    CategoryViewMain:{
-        width: '100%',
-        height: hp(10.5),
-        marginTop:hp(1.5),
-    },
-    recommandView:{
-        alignItems:'center',
-        justifyContent:'center',
-    },
-    recommandPressView:{
-        borderWidth:1,
-        margin:wp(1),
-    },
-    recommandImg: {
-        width: wp(30),
-        height: wp(30),
-        resizeMode: 'contain',
+    ImgView: {
+        // width: wp('100%'),
+        // height: hp('15%'),        
+        // resizeMode: 'contain',
+        // overflow: 'hidden',
+        width: 150,
+        height: 150,
+        resizeMode: 'cover',
+        margin: 10,
     },
     ScheduleImgView: {
         width: wp(100),
-        height: hp(11),
+        height: hp(12),
         resizeMode: 'stretch',
     },
+
 })
 
 const modalInnerStyle = StyleSheet.create({

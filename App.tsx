@@ -82,8 +82,11 @@ import { QueryClient, QueryClientProvider } from "react-query";
 //리덕스 툴킷
 //npm install @reduxjs/toolkit
 
+//리덕스
+//npm install react-redux
+
 //구글 로그인
-// npm install @react-native-google-signin/google-signin --save
+//npm install @react-native-google-signin/google-signin --save
 //npm install @react-native-firebase/app @react-native-firebase/auth
 
 //encrypted-storage

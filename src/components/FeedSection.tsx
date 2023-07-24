@@ -5,12 +5,9 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 const FeedSection = ({item, navigation}) => {
     return (
         <>
-        {/* <Image source={{uri : item.imgUrl}} style={{ height: 150}} /> */}
         <Pressable onPress={() => navigation.navigate('PureLuckMain')}>
-            <Image source={{uri : item}} style={styles.ImgResizeMode} />
+            <Image source={{uri : item}} style={styles.FlatImage} />
         </Pressable>
-        {/* <Text style={{ height: 100}}>{item.imgUrl}</Text> */}
-        {/* <Text>{item.title}</Text> */}
         </>
 
     );
@@ -18,18 +15,14 @@ const FeedSection = ({item, navigation}) => {
 
 //스타일 정보 설정
 const styles = StyleSheet.create({
-    //이미지 비율 조정 모드
-    ImgResizeMode: {
+    FlatImage: {
         resizeMode: 'contain',
-        alignSelf:'center',
-        borderRadius: 30,
-        width : wp(80),
-        height: hp(30),
-        borderWidth: 3,
+        width : wp(30),
+        height: wp(30),
+        borderWidth: 0.6,
         borderColor: '#000000',
-        marginBottom: 10,
+        margin: wp(1),
     },
-    
 });
 
 export default FeedSection;

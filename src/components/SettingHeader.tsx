@@ -10,8 +10,8 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 //전체 할당 뷰
 const Container = styled.View`
   /* flex: 1; */
-  height: ${hp(6.5)};
   /* background-color: ${Colors.cateMainHeader}; */
+  height: ${hp(6.5)};
   flex-direction: row;
   border-bottom-width: 1;
   border-bottom-color: 'rgba(158, 150, 150, .5)';
@@ -21,6 +21,7 @@ const Container = styled.View`
 const TitleView = styled.View`
   flex: 1;
   align-items: center;
+  justify-content: center;
   /* border-color: ${Colors.black};
   border-width: 1; */
 `;
@@ -54,38 +55,35 @@ const TitleImg = styled.Image`
 `;
 //검색 이미지
 const SerchImg = styled.Image`
-  margin-left: 12;
-  width: ${wp(5.5)};
-  height: ${hp(5.5)};
+  margin-left: 10;
+  width: ${wp(5)};
+  height: ${hp(5)};
 `;
 //메뉴 선택 이미지
 const MenuImg = styled.Image`
   width: ${wp(5)};
   height: ${hp(5)};
 `;
+const MidText = styled.Text`
+  color: white;
+  font-size: ${wp(5)};
+  font-weight: 300;
+`;
 
-const CateListHeader = ({navigation}) => (
+const SettingHeader = ({navigation, title}) => (
   <Container>
     <SerchView>
-      <SerchImg
-        style={styles.ImgResizeMode}
-        source={{uri: 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/header/main/topmenu.png'}}
-      />
+    <Pressable onPress={() => navigation.goBack()}>
+        <SerchImg
+          style={styles.ImgResizeMode}
+          source={{uri: 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/header/cate/prev-ico.png'}}
+        />
+      </Pressable>
     </SerchView>
+    
     <TitleView>
-      <TitleImg
-        style={styles.TopLogo}
-        source={require('../assets/images/toplogo.png')}
-      />
+      <MidText>{title}</MidText>
     </TitleView>
-    <MenuView>
-    <Pressable onPress={() => navigation.openDrawer()}>
-      <MenuImg
-        style={styles.ImgResizeMode}
-        source={{uri: 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/header/main/topmy.png'}}
-      />
-    </Pressable>
-    </MenuView>
   </Container>
 );
 
@@ -97,7 +95,7 @@ const styles = StyleSheet.create({
   },
   TopLogo: {
     resizeMode: 'contain',
-    width: wp(10),
+    width: wp(13),
     marginTop: -8
   },
   
@@ -122,4 +120,4 @@ const styles = StyleSheet.create({
   // },
 });
 
-export default CateListHeader;
+export default SettingHeader;

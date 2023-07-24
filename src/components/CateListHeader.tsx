@@ -11,15 +11,16 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 const Container = styled.View`
   /* flex: 1; */
   height: ${hp(6.5)};
-  background-color: ${Colors.cateMainHeader};
   flex-direction: row;
   border-bottom-width: 1;
-  border-bottom-color: 'rgba(158, 150, 150, .5)'
+  border-bottom-color: 'rgba(158, 150, 150, .5)';
+  background-color: 'rgb(159, 74, 255)';
 `;
 //메인 로고 뷰
 const TitleView = styled.View`
   flex: 1;
   align-items: center;
+  justify-content: center;
   /* border-color: ${Colors.black};
   border-width: 1; */
 `;
@@ -54,38 +55,42 @@ const TitleImg = styled.Image`
 //검색 이미지
 const SerchImg = styled.Image`
   margin-left: 10;
-  width: ${wp(5)};
-  height: ${hp(5)};
+  width: ${wp(3.5)};
+  height: ${hp(3.5)};
 `;
 //메뉴 선택 이미지
 const MenuImg = styled.Image`
   width: ${wp(5)};
   height: ${hp(5)};
 `;
+const MidText = styled.Text`
+  color: white;
+  font-size: ${wp(5)};
+  font-weight: 900;
+`;
 
-const CateListHeader = ({navigation}) => (
+const CateListHeader = ({navigation, title}) => (
   <Container>
     <SerchView>
     <Pressable onPress={() => navigation.goBack()}>
         <SerchImg
           style={styles.ImgResizeMode}
-          source={require('../assets/images/category/top-001.png')}
+          source={{uri: 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/header/cate/prev-ico.png'}}
         />
       </Pressable>
     </SerchView>
+
     <TitleView>
-      <TitleImg
-        style={styles.TopLogo}
-        source={require('../assets/images/toplogo.png')}
-      />
+      <MidText>{title}</MidText>
     </TitleView>
+
     <MenuView>
-    <Pressable onPress={() => navigation.navigate('MainPage')}>
+    <Pressable onPress={() => navigation.openDrawer()}>
       <MenuImg
         style={styles.ImgResizeMode}
-        source={require('../assets/images/category/top-002.png')}
+        source={{uri: 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/header/main/topmy.png'}}
       />
-      </Pressable>
+    </Pressable>
     </MenuView>
   </Container>
 );

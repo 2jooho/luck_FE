@@ -4,11 +4,17 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Main from '../screens/Main';
 import MainPage from '../screens/MainPage'
 import CateList from '../screens/CateList';
-import CateList2 from '../screens/CateList2'
+import CateList3 from '../screens/CateList3'
 import PureLuckMain from '../screens/PureLuckMain'
 import Login from '../screens/Login'
-import Join from '../screens/Join'
+import Join2 from '../screens/Join2'
 import FirstLoading from '../screens/FirstLoading'
+import Mypage from '../screens/Mypage'
+import MyStar from '../screens/MyStar'
+import Profile from '../screens/Profile'
+import FindId from '../screens/FindId'
+import FindFinish from '../screens/FindFinish'
+
 const Stack = createStackNavigator();
 
 const StackNavigator = () => {
@@ -37,16 +43,16 @@ const StackNavigator = () => {
             }}
             />
             <Stack.Screen
-            name="Join"
-            component={Join}
+            name="Join2"
+            component={Join2}
             options={{
                 headerShown: false,
             }}
             />
             
             <Stack.Screen
-            name="CateList2"
-            component={CateList2}
+            name="CateList3"
+            component={CateList3}
             options={{
                 headerShown: false,
             }}
@@ -58,6 +64,42 @@ const StackNavigator = () => {
                 headerShown: false,
             }}
             />
+            <Stack.Screen
+            name="Mypage"
+            component={Mypage}
+            options={{
+                headerShown: false,
+            }}
+            />
+            <Stack.Screen
+            name="MyStar"
+            component={MyStar}
+            options={{
+                headerShown: false,
+            }}
+            />
+            <Stack.Screen
+            name="Profile"
+            component={Profile}
+            options={{
+                headerShown: false,
+            }}
+            />
+            <Stack.Screen
+            name="FindId"
+            component={FindId}
+            options={{
+                headerShown: false,
+            }}
+            />
+            <Stack.Screen
+            name="FindFinish"
+            component={FindFinish}
+            options={{
+                headerShown: false,
+            }}
+            />
+            
       </Stack.Navigator>
     );
       

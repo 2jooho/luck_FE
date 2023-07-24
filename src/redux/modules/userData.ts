@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import { UserDataForm } from 'types/';
+import { UserDataForm } from '../../types/user';
 
 const initialState: any | null = null;
 
@@ -12,9 +12,14 @@ const userDataSlicer = createSlice({
             // return payload || null;
             state.userData = action.payload
         },
+        setSocialToken: (state, action) => {
+            // const { payload } = actions;
+            // return payload || null;
+            state.idToken = action.payload
+        },
         removeUserData: () => null,
     },
 });
 
 export default userDataSlicer.reducer;
-export const { setUserData, removeUserData } = userDataSlicer.actions;
+export const { setUserData, setSocialToken, removeUserData } = userDataSlicer.actions;

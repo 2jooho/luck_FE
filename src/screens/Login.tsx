@@ -222,17 +222,21 @@ const Login = ({navigation}) => {
     return (
         loading ? <Loading /> :
         <SafeAreaView style={styles.container}>
-            <View>
+            {/* 상단 */}
             {/* <Modall openYn ={modallOpenYn}></Modall> */}
             <ImageBackground style={styles.BackgrounImgView}
-            source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/login/login_bg-02.jpg'}}  //이미지경로
-            resizeMode="cover">
-               <View style={{flex:0.8, alignItems:'center', justifyContent:'center'}}>
-                <Image source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/login/login_char.png'}} style={styles.TopImage}></Image>
+                source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/login/login_bg-02.jpg'}}>
+                
+                {/* 상단이미지 */}
+               <View style={styles.TopImageView}>
+                    <Image source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/login/login_char.png'}} style={styles.TopImage}></Image>
                </View>
-               <View style={{flex:1.2, alignItems:'center'}}>
-                <Image source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/login/login_text_img.png'}} style={styles.LogoImage}></Image>
-                <Text style={{fontSize:fontPercentage(13), color:'#880eb0', marginBottom:7}}>나의 운을 제대로 써 보자!<Text style={{fontWeight:'bold'}}>운빨</Text></Text>
+
+               {/* 중단 이미지  */}
+               <View style={styles.MidImageView}>
+                    <Image source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/login/login_text_img.png'}} style={styles.LogoImage}></Image>
+                    <Text style={{fontSize:fontPercentage(13), color:'#880eb0', marginBottom:7}}>
+                        나의 운을 제대로 써 보자!<Text style={{fontWeight:'bold'}}>운빨</Text></Text>
                 <TextInput
                     style={styles.TextInput}
                     onChangeText={(text) => {setUserId(text)}}
@@ -267,6 +271,7 @@ const Login = ({navigation}) => {
                         onPress={(isChecked: boolean) => {setLoging(isChecked)}}
                     />
                 </View>
+
                 <TouchableOpacity
                     style={styles.LoginButton}
                     onPress={() => loginClick()}>
@@ -292,7 +297,7 @@ const Login = ({navigation}) => {
                 <View style={{flexDirection:'row', marginTop:10}}>
                     <TouchableOpacity
                         style={styles.IdFindButton}
-                        onPress={() => Alert.alert("아이디를 까먹었어요 준비중")}>
+                        onPress={() => navigation.navigate('FindId')}>
                         <Text style={{color: '#a7a7a7', fontSize: fontPercentage(10), borderBottomColor:'#a7a7a7', borderBottomWidth: 1, paddingBottom:1}}>아이디를 까먹었어요</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -304,8 +309,6 @@ const Login = ({navigation}) => {
                </View>
                <Text style={{fontSize: wp(2.2), alignSelf:'center', bottom:hp(2)}}>Copyrightⓒ2023 By 운빨. All right reserved.</Text>
             </ImageBackground>
-            </View>
-
         </SafeAreaView>
     );
 };
@@ -317,18 +320,28 @@ const styles = StyleSheet.create({
     BackgrounImgView: {
         width: '100%',
         height: '100%',
+        resizeMode: "cover"
+    },
+    TopImageView: {
+        flex:0.8, 
+        alignItems:'center', 
+        justifyContent:'center',
+    },
+    MidImageView:{
+        flex:1.2,
+        alignItems:'center',
     },
     TopImage: {
         resizeMode: 'contain',
-        width: widthPercentage(520),
-        height: heightPercentage(520),
+        width: widthPercentage(484),
+        height: heightPercentage(362),
         alignItems: 'center',
         justifyContent: 'center',
     },
     LogoImage: {
         resizeMode: 'contain',
-        width: widthPercentage(380),
-        height: heightPercentage(300),
+        width: widthPercentage(317.71),
+        height: heightPercentage(234),
         marginBottom: 5
     },
     TextInput: {

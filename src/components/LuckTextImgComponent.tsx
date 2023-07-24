@@ -1,6 +1,7 @@
 
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, Image, Text} from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 const LuckTextImgComponent = (props) => {
     const [isGoodLuck, setGoodLuck] = useState(true);
@@ -31,6 +32,7 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         width: '100%',
         height: '100%',
+        marginTop: hp(-1),
     },
 })
 

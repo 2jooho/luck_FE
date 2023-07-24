@@ -66,7 +66,7 @@ const PureLuckMain = ({navigation}:any) => {
                     <CateListHeader navigation={navigation} />
             <View>
             <ImageBackground style={styles.BackgrounImgView}
-                source={require("../assets/images/pureMain/background.jpg")}  //이미지경로
+                source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/pureMain/background.jpg'}}  //이미지경로
                 resizeMode="cover">
 
                 <View style={styles.BestDayAndTimeView}>

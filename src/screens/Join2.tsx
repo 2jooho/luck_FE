@@ -44,9 +44,9 @@ const Join = ({navigation}) => {
         .catch(() => {
           Alert.alert(`구독 실패 ㅠㅠ`);
         });
-      };
+    };
      
-      useEffect(() => {
+    useEffect(() => {
         getFcmToken();
         const unsubscribe = messaging().onMessage(async remoteMessage => {
           console.log('[Remote Message] ', JSON.stringify(remoteMessage));
@@ -56,6 +56,23 @@ const Join = ({navigation}) => {
 
     // 외부연동
     // axios
+    // const {data: mainInfo} = useQuery('jo', ()=>mainPage(), {
+    //     // retry: false,
+    //     onSuccess: (res: any) => {
+    //         setLoading(false);
+    //     },
+    //     onError: (error:unknown) => {
+    //         if(error != null){
+    //             alert(error);
+    //             setLoading(false);
+    //         }else{
+    //             alert("서비스 접속이 원활하지 않습니다. 잠시 후 다시 이용해주세요.");
+    //             setLoading(false);
+    //         }
+    //     },
+    // });
+
+
     let REQUEST_JOIN_URL = 'http://ec2-3-34-36-9.ap-northeast-2.compute.amazonaws.com:8081/luck/auth/join';
     const setJoin = async () => {
         setLoading(true);

@@ -11,7 +11,7 @@ const BestDayAndTime = ({data}: any) => {
             <Text style={styles.TopText}>가장 좋은 날과 시간 BEST</Text>
         </View>
         <ImageBackground style={styles.BestMainImage}
-                  source={require("../assets/images/pureMain/box-001.png")}  //이미지경로
+                  source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/pureMain/box-001.png'}}  //이미지경로
                   resizeMode="contain">
 
           <FlatList
@@ -21,7 +21,7 @@ const BestDayAndTime = ({data}: any) => {
               return (
                   <View>
                     <Image style={styles.FirstImg}
-                            source={require("../assets/images/pureMain/box-002.png")}  //이미지경로
+                            source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/pureMain/box-002.png'}}  //이미지경로
                             resizeMode="contain">
                     </Image>
                     <Text style={styles.FirstDayText}>{item.bestDate}</Text>

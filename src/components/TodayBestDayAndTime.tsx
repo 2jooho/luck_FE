@@ -1,6 +1,6 @@
 
 import React, {useState} from 'react';
-import {StyleSheet, Image, Text, SafeAreaView, View, FlatList} from 'react-native';
+import {StyleSheet, Image, Text, SafeAreaView, View, FlatList, Platform} from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 const BestDayAndTime = ({data}) => {
@@ -26,7 +26,7 @@ const BestDayAndTime = ({data}) => {
     <SafeAreaView style={styles.container}>
       <View>
         <Image style={styles.characterImg}
-              source={require("../assets/images/pureMain/back-character.png")}  //이미지경로
+              source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/pureMain/back-character.png'}}  //이미지경로
               resizeMode="contain">
         </Image>
         {
@@ -34,20 +34,23 @@ const BestDayAndTime = ({data}) => {
             data.map((list, i) => (
               // console.log("listTest:"+JSON.stringify(list.bestTime))
               <View>
-                  <Image style={styles.FirstViewImg}
-                          source={require("../assets/images/pureMain/box-004.png")}  //이미지경로
-                          resizeMode="contain">
-                  </Image>
+                <View style={styles.TimeFirstView}>
                   <Image style={styles.FirstIconImg}
-                          source={{uri : list.timeVersYearImg}}  //이미지경로
-                          resizeMode="contain">
+                            source={{uri : list.timeVersYearImg}}  //이미지경로
+                            resizeMode="contain">
                   </Image>
-                  <View style={styles.FirstView}>
-                    <Text style={styles.FirstDayText}>오늘은
-                      <Text style={{fontSize:wp(4.3)}}> {list.bestTime}</Text>
-                      시가 좋아요!
-                    </Text>
-                  </View>
+                    <View style={styles.FirstView}>
+                      <Text style={styles.FirstDayText}>오늘은
+                        <Text style={{fontSize:wp(4.3)}}> {list.bestTime}</Text>
+                        시가 좋아요!
+                      </Text>
+                    </View>
+                </View>
+                  {/* <Image style={styles.FirstViewImg}
+                          source={{uri : 'https://pureluckupload.s3.ap-northeast-2.amazonaws.com/img/pureMain/box-004.png'}}  //이미지경로
+                          resizeMode="contain">
+                  </Image> */}
+                  
               </View>
             ))
             : null
@@ -69,18 +72,36 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   FirstView:{
-    top: hp(9.5),
+    top: hp(3),
     width:wp(80),
     paddingLeft:wp(15),
     position:'absolute',
     alignItems:'center',
     alignSelf:'center',
   },
-  FirstViewImg: {
+  TimeFirstView: {
     width: wp(80),
+    height: hp(9),
     alignSelf: 'center',
     marginTop: hp(4),
-    position:'relative'
+    position:'relative',
+    borderRadius: 20,
+    backgroundColor: '#ffffff',
+    borderColor: '#575656',
+    ...Platform.select({
+      ios: {
+        shadowColor: "rgb(50, 50, 50)",
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+        shadowOffset: {
+          height: -1,
+          width: 0,
+        },
+      },
+      android: {
+        elevation: 10,
+      },
+    })
   },
   SecondViewImg: {
     width: wp(80),

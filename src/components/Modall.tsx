@@ -1,71 +1,53 @@
 // import Modal from 'react-native-simple-modal';
 import React, { useState, useEffect, useRef } from 'react';
-import {BackHandler ,Modal,View, Text, SafeAreaView, FlatList, ActivityIndicator, StyleSheet, StatusBar, Image, ImageBackground, TextInput, Alert, TouchableOpacity} from 'react-native';
+import {Pressable, BackHandler ,Modal,View, Text, SafeAreaView, FlatList, ActivityIndicator, StyleSheet, StatusBar, Image, ImageBackground, TextInput, Alert, TouchableOpacity} from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
-const Modall = ({openYn}: any) => {
-    const [isModalVisible, setIsModalVisible] = useState(openYn);
-
+const Modall = ({handleModalClose}:any) => {
     return(
-        <View style={styles.container2}> 
-            <Modal //모달창
-                animationType={"none"} //slide, fade, none
-                transparent={true}
-                visible={isModalVisible}
-                onRequestClose={() => { // 뒤로가기 버튼(Android) 또는 메뉴버튼(Apple TV)을 선택할 때 실행할 함수
-                    setIsModalVisible(false)
-                    console.log("modal appearance")
-                }}
-            >
-                <View> 
-                    <Text style={{fontSize: 20}}>모달창이요!</Text>
-                    <Text style={{fontSize: 20}}>너무 어려워요!</Text>
-                    <TouchableOpacity style={{margin: 3}} onPress={() => BackHandler.exitApp()}> 
-                        <Text style={styles.text2}>닫으시요</Text>
-                    </TouchableOpacity>
-                </View>
-            </Modal>
-        </View>
-    )
-    // return(
-    //
-    //             <Modal //모달창
-    //                 // offset={this.state.offset}
-    //                 open={openYn} //상태가 오픈이어야함.
-    //                 modalDidOpen={() => console.log('modal did open')} //모달이 열릴경우 콘솔창에 안내문을 띄운다.
-    //                 modalDidClose={() => BackHandler.exitApp()} //모달창을 닫을 경우 앱 종료
-    //                 style={{alignItems: 'center'}}>
-    //                 <View> //모달창에서 보여줄 화면 꾸미기
-    //                     <Text style={{fontSize: 20}}>모달창이요!</Text>
-    //                     <Text style={{fontSize: 20}}>너무 어려워요!</Text>
-    //                     <TouchableOpacity style={{margin: 3}} onPress={() => BackHandler.exitApp()}> //누르면 모달창을 닫아주는 버튼
-    //                         <Text style={styles.text}>닫으시요</Text>
-    //                     </TouchableOpacity>
-    //                 </View>
-    //             </Modal>
-    //         </View>
-    // )
+        <Modal //모달창
+                    animationType={"none"} //slide, fade, none
+                    transparent={true}
+                    visible={true}
+                    onRequestClose={() => { // 뒤로가기 버튼(Android) 또는 메뉴버튼(Apple TV)을 선택할 때 실행할 함수
+                        handleModalClose
+                    }}
+                >
+                    <Pressable 
+                    style={styles.modalOverlay}
+                    onPress={() => handleModalClose}>   
+                        
+                        <View style={styles.bottomSheetContainer}>
+                                <Text style={modalInnerStyle.recipeTitle}>알림</Text>
+                                <Text style={[modalInnerStyle.coin]}>오픈 준비중 입니다.</Text>
+                                <Pressable onPress={()=> handleModalClose}>
+                                    <View style={modalInnerStyle.btnView}>
+                                        <Text style={modalInnerStyle.btnText}>확인</Text>
+                                    </View>
+                                </Pressable>
+                        </View>
+                    </Pressable>
+                </Modal>
 
-}
+)}
 export default Modall;
 
 
 const styles = StyleSheet.create({
-    container2: {
-        zIndex:3,
-        position:'absolute',
-        height:'100%',
-        width:'100%',
-        justifyContent:"center",
-        alignContent:"center",
-        alignItems:"center",
-        paddingTop: 50
-    },
-    text2:{
-        position:'relative',
-        fontSize:15,
-        fontWeight:'700',
-        left:'40%',
-    },
+    modalOverlay: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems:'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.4)'
+    },  // 모달이 띄워졌을 때 화면을 어둡게 하기 위한 오버레이
+    bottomSheetContainer: {
+        width: wp(80),
+        height: hp(30),
+        backgroundColor: '#fff',
+        borderTopLeftRadius: 7,
+        borderTopRightRadius: 7,
+        padding: wp(7)
+    },  // 모달 스타일
     container: {
         zIndex:3,
         position:'absolute',
@@ -90,4 +72,32 @@ const styles = StyleSheet.create({
         left:'40%',
     }
 
+})
+
+const modalInnerStyle = StyleSheet.create({
+    recipeTitle: {
+        fontSize: wp(7),
+        fontWeight: '700'
+    },
+    coin: {
+        fontSize: wp(5),
+        fontWeight: '700',
+        paddingTop: hp(3),
+        textAlign: 'center'
+    },
+    btnView: {
+        width: wp(15),
+        height: hp(5),
+        backgroundColor: '#e6c4fc',
+        borderRadius: 5,
+        alignSelf:'center',
+        justifyContent:'center',
+        marginTop: hp(4)
+    },
+    btnText: {
+        fontSize: wp(4),
+        fontWeight: '700',
+        textAlign: 'center',
+        color: '#fff',
+    },
 })
